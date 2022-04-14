@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "328087577075",
+    "firebase_url": "https://isen-lazherme-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "isen-lazherme",
+    "storage_bucket": "isen-lazherme.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:328087577075:android:d7c16eacc5c31aa0497286",
+        "android_client_info": {
+          "package_name": "fr.isen.lazherme"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "328087577075-2cib57hidavkorq2bglavolfhdqvfg8p.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNdtciMx2EATp53D9rwWnHEfxDfo-cnOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "328087577075-2cib57hidavkorq2bglavolfhdqvfg8p.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "328087577075-iu90e4gh0f0kimmigelnpfqnqhs6rd2m.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "fr.isen.LazherMeApp"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

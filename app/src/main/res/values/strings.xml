@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">LazherMe</string>
+    <string name="sign_in_text">Connexion</string>
+    <string name="not_signed_up_text">Pas encore membre ? Creer un compte</string>
+    <string name="sign_up_text">S\'enregister</string>
+    <string name="deja_enregistre_text">Deja membre ? Se connecter</string>
+    <string name="type_your_email">Votre adresse e-mail</string>
+    <string name="type_your_password">Votre mot de passe</string>
+    <string name="retype_your_password">Retapez votre mot de passe</string>
+</resources>
