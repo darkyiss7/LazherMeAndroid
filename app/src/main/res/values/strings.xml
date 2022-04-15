@@ -10,4 +10,16 @@
     <string name="ble_scan_play">Lancer le scan</string>
     <string name="ble_scan_pause">Scan BLE en cours …</string>
     <string name="ble_scan_error">BLE non disponique sur cet appareil</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome !"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="creer_partie">Creer une partie</string>
+    <string name="rejoindre_partie">Rejoindre une partie</string>
+    <string name="btn_rejoindre">Rejoindre</string>
 </resources>

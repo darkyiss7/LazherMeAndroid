@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bleScanList.layoutManager = LinearLayoutManager(this)
         binding.bleScanList.adapter = BleAdapter(listeBle){
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra(ITEM_KEY, it)
             startActivity(intent)
         }
