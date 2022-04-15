@@ -7,4 +7,7 @@
     <string name="type_your_email">Votre adresse e-mail</string>
     <string name="type_your_password">Votre mot de passe</string>
     <string name="retype_your_password">Retapez votre mot de passe</string>
+    <string name="ble_scan_play">Lancer le scan</string>
+    <string name="ble_scan_pause">Scan BLE en cours …</string>
+    <string name="ble_scan_error">BLE non disponique sur cet appareil</string>
 </resources>
