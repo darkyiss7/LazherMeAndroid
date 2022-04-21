@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LazherMe">
         <activity
+            android:name=".GameActivity"
+            android:exported="false" />
+        <activity
             android:name=".HomeActivity"
             android:exported="false" />
         <activity
@@ -36,7 +39,7 @@
         <activity
             android:name=".MainActivity"
             android:exported="false"
-            android:parentActivityName=".HomeActivity"/>
+            android:parentActivityName=".HomeActivity" />
     </application>
 
 </manifest>

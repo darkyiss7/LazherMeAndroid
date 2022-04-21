@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Documents/Bureau/LazherMeAndroid/app/src/main/res/layout/activity_game.xml" value="0.36666666666666664" />
+        <entry key="..\:/Documents/Bureau/LazherMeAndroid/app/src/main/res/layout/activity_home.xml" value="0.22552083333333334" />
+        <entry key="..\:/Documents/Bureau/LazherMeAndroid/app/src/main/res/layout/activity_sign_in.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/theod/AndroidStudioProjects/LazherMe/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/theod/AndroidStudioProjects/LazherMe/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/theod/AndroidStudioProjects/LazherMe/app/src/main/res/layout/activity_home.xml" value="0.33" />
