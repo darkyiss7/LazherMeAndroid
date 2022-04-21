@@ -33,32 +33,10 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.button3.setOnClickListener{
-            var bool : Boolean
-            bool = false
-            myRef.child("Games").addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    if (snapshot.hasChild(binding.code.text.toString())){
-                        bool=true
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
-                }
-
-            })
-            if (bool){
-                myRef.child("Games").child(binding.code.text.toString()).child("teamRed").child("player").setValue(userEmail)
+                myRef.child("Games").child(code).child("teamRed").child("player").setValue(userEmail)
                 val intent = Intent(this, GameActivity::class.java)
                 intent.putExtra("code",code)
                 startActivity(intent)
-            }
-            if(!bool){
-
-                val toast = Toast.makeText(this, "message", Toast.LENGTH_LONG)
-                toast.show()
-            }
-
         }
     }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -71,7 +49,7 @@ class HomeActivity : AppCompatActivity() {
         return super.onOptionsItemSelected(item)
     }
     fun getRandomString(length: Int) : String {
-        val allowedChars = ('A'..'Z') + ('a'..'z') + ('0'..'9')
+        val allowedChars = ('A'..'Z') + ('0'..'9')
         return (1..length)
             .map { allowedChars.random() }
             .joinToString("")
