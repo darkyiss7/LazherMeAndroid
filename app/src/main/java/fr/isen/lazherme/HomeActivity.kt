@@ -1,10 +1,14 @@
 package fr.isen.lazherme
 
 import android.R.attr.duration
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
@@ -15,6 +19,12 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var database : FirebaseDatabase
     private lateinit var myRef: DatabaseReference
+    private lateinit var code:String
+    private lateinit var userEmail:String
+    private lateinit var userKey:String
+    private var count = 2
+    private var mode = 0
+    private var temps = 10
 
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -22,23 +32,82 @@ class HomeActivity : AppCompatActivity() {
         setContentView(binding.root)
         database = FirebaseDatabase.getInstance()
         myRef = database.reference
-        val code = getRandomString(5)
-        val userEmail = intent.getStringExtra("email")
+        binding.texteNombre.text = count.toString()
+        binding.texteMode.text = getString(R.string.MME)
+        binding.texteTemps.text = temps.toString()
+        userEmail = intent.getStringExtra("email").toString()
         binding.button2.setOnClickListener{
-            myRef.child("Games").child(code).child("ownerEmail").setValue(userEmail)
-            myRef.child("Games").child(code).child("gameCode").setValue(code)
-            myRef.child("Games").child(code).child("teamBlue").child("player").setValue(userEmail)
+            code = getRandomString(5)
+            myRef.child("Games").child(code).child("gameSpecs").child("ownerEmail").setValue(userEmail)
+            myRef.child("Games").child(code).child("gameSpecs").child("gameCode").setValue(code)
+            myRef.child("Games").child(code).child("gameSpecs").child("gameMode").setValue(mode)
+            myRef.child("Games").child(code).child("gameSpecs").child("playerMax").setValue(count)
+            myRef.child("Games").child(code).child("gameSpecs").child("timeMax").setValue(temps)
+            myRef.child("Games").child(code).child("gameSpecs").child("gameState").setValue(0)
+            userKey = myRef.child("Games").child(code).child("players").push().key.toString()
+            myRef.child("Games").child(code).child("players").child(userKey).child("email").setValue(userEmail)
+            myRef.child("Games").child(code).child("players").child(userKey).child("team").setValue("blue")
+            myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("currentGame").setValue(code)
             val intent = Intent(this, GameActivity::class.java)
             intent.putExtra("code",code)
+            intent.putExtra("userKey",userKey)
+            intent.putExtra("userEmail",userEmail)
             startActivity(intent)
         }
         binding.button3.setOnClickListener{
-                myRef.child("Games").child(code).child("teamRed").child("player").setValue(userEmail)
-                val intent = Intent(this, GameActivity::class.java)
-                intent.putExtra("code",code)
-                startActivity(intent)
+            checkGame(this)
+        }
+        binding.boutonModeDroite.setOnClickListener{changemode(1)}
+        binding.boutonModeGauche.setOnClickListener{changemode(0)}
+        binding.boutonNombreDroite.setOnClickListener{augmenteNombre()}
+        binding.boutonNombreGauche.setOnClickListener{diminuerNombre()}
+        binding.boutonTempsDroite.setOnClickListener{augmenterTemps()}
+        binding.boutonTempsGauche.setOnClickListener{diminuerTemps()}
+    }
+    private fun diminuerTemps() {
+        temps -= 10
+        if (temps<10) temps=30
+        binding.texteTemps.text = temps.toString()
+    }
+
+    private fun augmenterTemps() {
+        temps += 10
+        if (temps>30) temps=10
+        binding.texteTemps.text = temps.toString()
+    }
+    private fun diminuerNombre() {
+        count -= 2
+        if (count<2) count=12
+        binding.texteNombre.text = count.toString()
+    }
+
+    private fun augmenteNombre() {
+        count += 2
+        if (count>12) count=2
+        binding.texteNombre.text = count.toString()
+    }
+
+    private fun changemode(gameMode:Int) {
+        if (gameMode==0){
+            if (mode==0){
+                binding.texteMode.text = getString(R.string.FFA)
+                mode=1
+            }else{
+                binding.texteMode.text = getString(R.string.MME)
+                mode=0
+            }
+        }
+        if(gameMode==1){
+            if (mode==1){
+            binding.texteMode.text = getString(R.string.MME)
+                mode=0
+        }else{
+            binding.texteMode.text = getString(R.string.FFA)
+                mode=1
+        }
         }
     }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.ble,menu)
         return super.onCreateOptionsMenu(menu)
@@ -53,5 +122,36 @@ class HomeActivity : AppCompatActivity() {
         return (1..length)
             .map { allowedChars.random() }
             .joinToString("")
+    }
+    private fun checkGame(context:Context) {
+        val ref = myRef.child("Games").child(binding.code.text.toString())
+        Log.d("code",binding.code.text.toString())
+        ref.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    openGame()
+                }else{
+                    Toast.makeText(context, "Partie introuvable", Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+    private fun openGame() {
+        var codeGame = binding.code.text.toString()
+        userKey = myRef.child("Games").child(codeGame).child("players").push().key.toString()
+        myRef.child("Games").child(codeGame).child("players").child(userKey).child("email").setValue(userEmail)
+        myRef.child("Games").child(codeGame).child("players").child(userKey).child("team").setValue("red")
+        myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("currentGame").setValue(codeGame)
+        val intent = Intent(this, GameActivity::class.java)
+        intent.putExtra("code",binding.code.text.toString())
+        intent.putExtra("userKey",userKey)
+        intent.putExtra("userEmail",userEmail)
+        startActivity(intent)
     }
 }

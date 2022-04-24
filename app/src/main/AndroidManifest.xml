@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LazherMe">
         <activity
+            android:name=".GameStartedActivity"
+            android:exported="false" />
+        <activity
             android:name=".GameActivity"
             android:exported="false" />
         <activity
@@ -40,6 +43,10 @@
             android:name=".MainActivity"
             android:exported="false"
             android:parentActivityName=".HomeActivity" />
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

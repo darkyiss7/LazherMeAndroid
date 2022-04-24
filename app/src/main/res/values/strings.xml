@@ -22,6 +22,17 @@
     <string name="creer_partie">Creer une partie</string>
     <string name="rejoindre_partie">Rejoindre une partie</string>
     <string name="btn_rejoindre">Rejoindre</string>
-    <string name="equipe_rouge">Equipe Rouge</string>
-    <string name="equipe_bleu">Equipe Bleue</string>
+    <string name="equipe_rouge">Equipe</string>
+    <string name="equipe_bleu">Equipe</string>
+    <string name="MME">MME</string>
+    <string name="FFA">FFA</string>
+    <string name="durree">Durée (min) :</string>
+    <string name="nombre_de_joueurs">Nombre de joueurs :</string>
+    <string name="mode_de_jeu">Mode de jeu :</string>
+    <string name="creer">Creer</string>
+    <string name="saisissez_le_code">Saisissez le code</string>
+    <string name="temps_max">Temps : %1$s min</string>
+    <string name="mode_jeu">Mode : %1$s </string>
+    <string name="joueurs_max">Joueurs max : %1$s </string>
+    <string name="code_de_la_partie">Code de la partie :</string>
 </resources>
