@@ -33,35 +33,39 @@
         android:id="@+id/texteTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@font/bebas_neue"
         android:text="TextView"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="35sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
 
     <TextView
-        android:id="@+id/textView11"
+        android:id="@+id/scoreBleu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-light"
-        android:text="TextView"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:fontFamily="@font/bebas_neue"
+        android:text="0"
+        android:textColor="@color/blue"
+        android:textSize="40sp"
         app:layout_constraintEnd_toStartOf="@+id/divider4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
 
     <TextView
-        android:id="@+id/textView12"
+        android:id="@+id/scoreRouge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:fontFamily="sans-serif-light"
-        android:text="TextView"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:fontFamily="@font/bebas_neue"
+        android:text="0"
+        android:textColor="@color/red"
+        android:textSize="40sp"
         app:layout_constraintStart_toEndOf="@+id/divider4"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+        app:layout_constraintTop_toBottomOf="@+id/textView11" />
     <Button
         android:id="@+id/boutonArreter"
         android:layout_width="wrap_content"
@@ -70,17 +74,47 @@
         android:backgroundTint="@color/purple_main"
         android:fontFamily="sans-serif-light"
         android:text="Arreter"
+        android:textSize="20sp"
         android:textColor="@color/white"
         app:icon="@drawable/ic_baseline_play_arrow_24"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
     <View
         android:id="@+id/divider4"
         android:layout_width="1dp"
         android:layout_height="729dp"
         android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreBleu" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/blueListStarted"
+        android:layout_width="203dp"
+        android:layout_height="548dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/divider4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/scoreBleu" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/redListStarted"
+        android:layout_width="203dp"
+        android:layout_height="548dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/divider4"
+        app:layout_constraintTop_toBottomOf="@+id/scoreRouge" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Score"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView9" />

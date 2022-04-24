@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 
 class UserAdapter(private val userListe: java.util.ArrayList<String>) : RecyclerView.Adapter<UserAdapter.ViewHolder>(){
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val textView : TextView = itemView.findViewById(R.id.username)
+        val textView : TextView = itemView.findViewById(R.id.username2)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

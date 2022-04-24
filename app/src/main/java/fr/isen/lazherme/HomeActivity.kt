@@ -1,14 +1,11 @@
 package fr.isen.lazherme
 
-import android.R.attr.duration
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
@@ -44,9 +41,11 @@ class HomeActivity : AppCompatActivity() {
             myRef.child("Games").child(code).child("gameSpecs").child("playerMax").setValue(count)
             myRef.child("Games").child(code).child("gameSpecs").child("timeMax").setValue(temps)
             myRef.child("Games").child(code).child("gameSpecs").child("gameState").setValue(0)
-            userKey = myRef.child("Games").child(code).child("players").push().key.toString()
+            userKey = intent.getStringExtra("uid").toString()
             myRef.child("Games").child(code).child("players").child(userKey).child("email").setValue(userEmail)
             myRef.child("Games").child(code).child("players").child(userKey).child("team").setValue("blue")
+            myRef.child("Games").child(code).child("players").child(userKey).child("kill").setValue(0)
+            myRef.child("Games").child(code).child("players").child(userKey).child("death").setValue(0)
             myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("currentGame").setValue(code)
             val intent = Intent(this, GameActivity::class.java)
             intent.putExtra("code",code)
@@ -147,6 +146,8 @@ class HomeActivity : AppCompatActivity() {
         userKey = myRef.child("Games").child(codeGame).child("players").push().key.toString()
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("email").setValue(userEmail)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("team").setValue("red")
+        myRef.child("Games").child(codeGame).child("players").child(userKey).child("kill").setValue(0)
+        myRef.child("Games").child(codeGame).child("players").child(userKey).child("death").setValue(0)
         myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("currentGame").setValue(codeGame)
         val intent = Intent(this, GameActivity::class.java)
         intent.putExtra("code",binding.code.text.toString())
@@ -154,4 +155,5 @@ class HomeActivity : AppCompatActivity() {
         intent.putExtra("userEmail",userEmail)
         startActivity(intent)
     }
+
 }

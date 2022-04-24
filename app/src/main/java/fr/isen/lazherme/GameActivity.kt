@@ -1,21 +1,23 @@
 package fr.isen.lazherme
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.FirebaseApp
 import com.google.firebase.database.*
 import fr.isen.lazherme.databinding.ActivityGameBinding
-import java.net.ConnectException
-import java.sql.Timestamp
+
 
 private lateinit var binding: ActivityGameBinding
 private lateinit var database : FirebaseDatabase
 private lateinit var myRef: DatabaseReference
+private lateinit var ref2: DatabaseReference
 private lateinit var userListBlue : ArrayList<String>
 private lateinit var userListRed : ArrayList<String>
 private lateinit var code : String
@@ -33,6 +35,7 @@ class GameActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
         code = intent.getStringExtra("code").toString()
         myRef = database.getReference("Games")
+        ref2 = database.getReference("Users")
         binding = ActivityGameBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         binding.codeDisplay.text = code
@@ -40,6 +43,7 @@ class GameActivity : AppCompatActivity() {
         userListRed = arrayListOf<String>()
         userKey = intent.getStringExtra("userKey").toString()
         userEmail = intent.getStringExtra("userEmail").toString()
+        estDansLaPartie(this)
         getUsers(this)
         getGameState(this)
         setContentView(binding.root)
@@ -48,6 +52,59 @@ class GameActivity : AppCompatActivity() {
         binding.boutonCommencer.setOnClickListener{
             lancerPartie()
         }
+        binding.boutonQuitter.setOnClickListener{
+            quitterPartie(this)
+        }
+    }
+
+    private fun estDansLaPartie(context: Context) {
+        val ref = myRef.child(code).child("players").child(userKey)
+        ref.addListenerForSingleValueEvent(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+
+                }else{
+                    val intent = Intent(context, HomeActivity::class.java)
+                    intent.putExtra("userKey",userKey)
+                    intent.putExtra("email",userEmail)
+                    startActivity(intent)
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+    private fun quitterPartie(context: Context) {
+        val ref = myRef.child(code).child("players").child(userKey)
+        ref.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if(snapshot.exists()){
+                    AlertDialog.Builder(context)
+                        .setMessage("Voulez vous vraiment quitter cette partie ?")
+                        .setPositiveButton("Oui",
+                            DialogInterface.OnClickListener { dialog, whichButton ->
+                                ref.removeValue()
+                                ref2.child(userKey).child("currentGame").setValue("none")
+                                val intent = Intent(context, HomeActivity::class.java)
+                                intent.putExtra("userKey",userKey)
+                                intent.putExtra("email",userEmail)
+                                startActivity(intent)
+                            })
+                        .setNegativeButton("Non", null).show()
+
+                }
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
 
     private fun lancerPartie() {
@@ -172,5 +229,7 @@ class GameActivity : AppCompatActivity() {
     override fun onStart() {
         super.onStart()
         getGameSpecs(this)
+    }
+    override fun onBackPressed() {
     }
 }

@@ -22,8 +22,8 @@
     <string name="creer_partie">Creer une partie</string>
     <string name="rejoindre_partie">Rejoindre une partie</string>
     <string name="btn_rejoindre">Rejoindre</string>
-    <string name="equipe_rouge">Equipe</string>
-    <string name="equipe_bleu">Equipe</string>
+    <string name="equipe_rouge">Team Rouge</string>
+    <string name="equipe_bleu">Team Bleue</string>
     <string name="MME">MME</string>
     <string name="FFA">FFA</string>
     <string name="durree">Durée (min) :</string>
