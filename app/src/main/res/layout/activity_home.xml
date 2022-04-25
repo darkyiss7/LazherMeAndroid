@@ -137,6 +137,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+            android:fontFamily="@font/blinker"
             android:hint="@string/saisissez_le_code"
             android:inputType="textCapCharacters" />
     </com.google.android.material.textfield.TextInputLayout>

@@ -19,6 +19,8 @@ private lateinit var arrayAdapterRed: UserAdapter2
 private lateinit var userListBlue : ArrayList<userData>
 private lateinit var userListRed : ArrayList<userData>
 private lateinit var code : String
+private lateinit var userEmail : String
+private lateinit var ownerEmail : String
 class GameStartedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         database = FirebaseDatabase.getInstance()
@@ -26,13 +28,14 @@ class GameStartedActivity : AppCompatActivity() {
         userListBlue = arrayListOf<userData>()
         userListRed = arrayListOf<userData>()
         code = intent.getStringExtra("code").toString()
+        userEmail = intent.getStringExtra("userEmail").toString()
         binding = ActivityGameStartedBinding.inflate(layoutInflater)
         getUsers(this)
-        getGameSpecs(this)
+        getGameSpecs()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         binding.boutonArreter.setOnClickListener{
-            arreterPartie()
+            finPartie()
         }
         var time = intent.getStringExtra("time").toString()
         var timesec = time.toLong()*60000
@@ -44,18 +47,23 @@ class GameStartedActivity : AppCompatActivity() {
                             TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished))
                 )
             }
-
             override fun onFinish() {
-                binding.texteTimer.text = "done!"
+                finPartie()
             }
         }.start()
     }
-    private fun getGameSpecs(context: Context){
+    private fun getGameSpecs(){
         val ref = myRef.child("Games").child(code).child("gameSpecs")
         ref.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                var gamestate = snapshot.child("gameState").value
+                if(gamestate.toString()=="2"){
+                    ouvreLeaderboard()
+                    Log.d("gamestate","fin partie")
+                }
                 binding.scoreBleu.text = snapshot.child("scoreBlue").value.toString()
                 binding.scoreRouge.text = snapshot.child("scoreRed").value.toString()
+                ownerEmail = snapshot.child("ownerEmail").value.toString()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -63,6 +71,16 @@ class GameStartedActivity : AppCompatActivity() {
             }
 
         })
+    }
+    private fun finPartie(){
+        if(userEmail== ownerEmail){
+            myRef.child("Games").child(code).child("gameSpecs").child("gameState").setValue(2)
+        }
+    }
+    private fun ouvreLeaderboard(){
+        val intent = Intent(this, GameFinishedActivity::class.java)
+        intent.putExtra("code",code)
+        startActivity(intent)
     }
     private fun getUsers(context : Context) {
         val ref = myRef.child("Games").child(code).child("players")
@@ -99,6 +117,6 @@ class GameStartedActivity : AppCompatActivity() {
 
         })
     }
-    private fun arreterPartie() {
+    override fun onBackPressed() {
     }
 }

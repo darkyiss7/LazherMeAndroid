@@ -9,7 +9,8 @@
     android:layout_marginTop="10dp"
     app:cardCornerRadius="3dp"
     app:cardElevation="3dp"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    android:backgroundTint="@color/purple_light">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -23,8 +24,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
             android:layout_toRightOf="@id/rssiView"
+            android:fontFamily="@font/blinker"
             android:text="Nom"
-            android:textColor="@color/dark_grey"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toEndOf="@+id/rssiView"
             app:layout_constraintTop_toTopOf="@+id/rssiView" />
@@ -37,8 +39,9 @@
             android:layout_marginStart="32dp"
             android:layout_marginTop="8dp"
             android:layout_toRightOf="@id/rssiView"
+            android:fontFamily="@font/blinker"
             android:text="Addresse"
-            android:textColor="@color/teal_200"
+            android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="@+id/rssiView"
             app:layout_constraintStart_toEndOf="@+id/rssiView"

@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LazherMe">
         <activity
+            android:name=".GameFinishedActivity"
+            android:exported="false" />
+        <activity
             android:name=".GameStartedActivity"
             android:exported="false" />
         <activity

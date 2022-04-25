@@ -23,6 +23,8 @@ import fr.isen.lazherme.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
+    private lateinit var userKey : String
+    private lateinit var userEmail : String
     lateinit var swipeContainer: SwipeRefreshLayout
     private var isScanning = false
     private val listeBle = ArrayList<ScanResult>()
@@ -33,18 +35,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        userKey = intent.getStringExtra("uid").toString()
+        userEmail = intent.getStringExtra("email").toString()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.bleScanList.layoutManager = LinearLayoutManager(this)
         binding.bleScanList.adapter = BleAdapter(listeBle){
             val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("uid",userKey)
+            intent.putExtra("email",userEmail)
             intent.putExtra(ITEM_KEY, it)
             startActivity(intent)
         }
-        title = "Bluetooth";
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        supportActionBar!!.setHomeButtonEnabled(true)
+        supportActionBar?.hide()
         swipeContainer = findViewById(R.id.swipeContainer)
         when{
             bluetoothAdapter?.isEnabled == true ->{
@@ -67,6 +71,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun onRefresh(){
+        binding.texteSwipe.isVisible = false
         startLeScanBLEWithPermission(true)
         val handler = Handler()
         handler.postDelayed(Runnable {
@@ -75,6 +80,7 @@ class MainActivity : AppCompatActivity() {
                 startLeScanBLEWithPermission(false)
             }
         }, 3000)
+        binding.texteSwipe.isVisible = listeBle.isEmpty()
     }
     override fun onStop() {
         super.onStop()
@@ -128,7 +134,6 @@ class MainActivity : AppCompatActivity() {
     private fun displayBLEUnAvailable() {
         binding.bleScanImg.isVisible = false
         binding.bleScanText.text=getString(R.string.ble_scan_error)
-        binding.bleScanProgression.isVisible = false
     }
     private fun askBluetoothPermission(){
         val enableBtIntent = Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE)
@@ -154,11 +159,9 @@ class MainActivity : AppCompatActivity() {
         if (isScanning){
             binding.bleScanImg.setImageResource(R.drawable.ic_baseline_pause_24)
             binding.bleScanText.text=getString(R.string.ble_scan_pause)
-            binding.bleScanProgression.isIndeterminate = true
         }else{
             binding.bleScanImg.setImageResource(R.drawable.ic_baseline_play_arrow_24)
             binding.bleScanText.text=getString(R.string.ble_scan_play)
-            binding.bleScanProgression.isIndeterminate = false
         }
     }
     companion object {

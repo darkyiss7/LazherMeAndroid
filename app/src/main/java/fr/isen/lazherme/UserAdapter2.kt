@@ -23,7 +23,7 @@ class UserAdapter2(private val userListe: java.util.ArrayList<userData>) : Recyc
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val user = userListe[position]
         holder.textView.text = user.username
-        holder.texteScore.text = (user.kills.toInt()*100).toString()
+        holder.texteScore.text = "S "+(user.kills.toInt()*100).toString()
         holder.texteKills.text = "K " + user.kills
         holder.texteDeath.text = "D " + user.deaths
     }

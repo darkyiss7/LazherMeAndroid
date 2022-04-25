@@ -60,7 +60,7 @@ class SignInActivity : AppCompatActivity() {
         super.onStart()
 
         if(firebaseAuth.currentUser != null){
-            val intent = Intent(this, HomeActivity::class.java)
+            val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("email",firebaseAuth.currentUser!!.email)
             intent.putExtra("uid",firebaseAuth.currentUser!!.uid)
             startActivity(intent)

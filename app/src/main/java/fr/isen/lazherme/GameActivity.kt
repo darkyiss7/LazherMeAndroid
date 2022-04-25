@@ -26,6 +26,7 @@ private lateinit var playerMax : String
 private lateinit var temps : String
 private lateinit var userKey : String
 private lateinit var userEmail : String
+private lateinit var ownerEmail : String
 private lateinit var arrayAdapterBlue: UserAdapter
 private lateinit var arrayAdapterRed: UserAdapter
 
@@ -47,7 +48,8 @@ class GameActivity : AppCompatActivity() {
         getUsers(this)
         getGameState(this)
         setContentView(binding.root)
-        binding.boutonChangerEquipe.setOnClickListener{ changerEquipe()
+        binding.boutonChangerEquipe.setOnClickListener{
+            changerEquipe()
            }
         binding.boutonCommencer.setOnClickListener{
             lancerPartie()
@@ -80,7 +82,7 @@ class GameActivity : AppCompatActivity() {
     }
     private fun quitterPartie(context: Context) {
         val ref = myRef.child(code).child("players").child(userKey)
-        ref.addValueEventListener(object :ValueEventListener{
+        ref.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
                     AlertDialog.Builder(context)
@@ -88,10 +90,14 @@ class GameActivity : AppCompatActivity() {
                         .setPositiveButton("Oui",
                             DialogInterface.OnClickListener { dialog, whichButton ->
                                 ref.removeValue()
-                                ref2.child(userKey).child("currentGame").setValue("none")
+                                ref2.child(userKey).child("games").child(code).setValue(null)
+                                if(ownerEmail== userEmail){
+                                    myRef.child(code).setValue(null)
+                                }
                                 val intent = Intent(context, HomeActivity::class.java)
                                 intent.putExtra("userKey",userKey)
                                 intent.putExtra("email",userEmail)
+                                intent.putExtra("uid",userKey)
                                 startActivity(intent)
                             })
                         .setNegativeButton("Non", null).show()
@@ -116,9 +122,9 @@ class GameActivity : AppCompatActivity() {
         val ref = myRef.child(code).child("gameSpecs").child("gameState")
         ref.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                Log.d("gamestate",snapshot.value.toString())
                 if(snapshot.exists()){
                     if (snapshot.value.toString()=="1"){
+                        ref2.child(userKey).child("games").child(code).setValue(1)
                         val intent = Intent(context, GameStartedActivity::class.java)
                         intent.putExtra("code",code)
                         intent.putExtra("userKey",userKey)
@@ -176,6 +182,7 @@ class GameActivity : AppCompatActivity() {
         }
         ref.child("ownerEmail").get().addOnSuccessListener {
             binding.boutonCommencer.isVisible = it.value.toString()== userEmail
+            ownerEmail =it.value.toString()
         }.addOnFailureListener{
         }
         ref.child("gameState").get().addOnSuccessListener {

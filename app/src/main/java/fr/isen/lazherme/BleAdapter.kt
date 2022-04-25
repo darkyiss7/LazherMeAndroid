@@ -39,7 +39,7 @@ class BleAdapter(private val bleliste: ArrayList<ScanResult>,val clickListener :
         holder.rssi.setImageBitmap(textAsBitmap(item.rssi.toString(),20f, Color.WHITE))
         holder.rssi.setBackgroundTintList(
             ColorStateList.valueOf(Color
-                .parseColor(pickColor(item.rssi))));
+                .parseColor("#FFFFFF")));
         holder.itemView.setOnClickListener{
             clickListener(item.device)
         }
@@ -49,13 +49,13 @@ class BleAdapter(private val bleliste: ArrayList<ScanResult>,val clickListener :
     fun pickColor(rssi : Int):String{
         var color: String
         when{
-            rssi<(-100) -> color= "#004361"
-            rssi<(-75) -> color= "#005f8a"
-            rssi<(-50) -> color= "#006b9c"
-            rssi<(-25) -> color= "#0083bf"
-            rssi<(-10) -> color= "#0091d4"
-            rssi<(-5) -> color= "#009be3"
-            else -> color= "#03A9F4"
+            rssi<(-100) -> color= R.color.purple_dark.toString()
+            rssi<(-75) -> color= R.color.purple_dark.toString()
+            rssi<(-50) -> color= R.color.purple_dark.toString()
+            rssi<(-25) -> color= R.color.purple_dark.toString()
+            rssi<(-10) -> color= R.color.purple_dark.toString()
+            rssi<(-5) -> color= R.color.purple_dark.toString()
+            else -> color= R.color.purple_dark.toString()
         }
         return color
     }
