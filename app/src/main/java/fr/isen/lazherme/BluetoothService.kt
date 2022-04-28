@@ -212,6 +212,7 @@ class BluetoothService : Service() {
         val dialogIntent = Intent(this, HomeActivity::class.java)
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         dialogIntent.putExtra("email",addresse)
+        dialogIntent.putExtra("uid",uid)
         startActivity(dialogIntent)
     }
 

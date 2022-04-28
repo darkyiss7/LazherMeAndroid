@@ -44,6 +44,7 @@ class HomeActivity : AppCompatActivity() {
             myRef.child("Games").child(code).child("gameSpecs").child("timeMax").setValue(temps)
             myRef.child("Games").child(code).child("gameSpecs").child("gameState").setValue(0)
             userKey = intent.getStringExtra("uid").toString()
+            Log.d("userkey", userKey)
             myRef.child("Games").child(code).child("players").child(userKey).child("email").setValue(userEmail)
             myRef.child("Games").child(code).child("players").child(userKey).child("team").setValue("blue")
             myRef.child("Games").child(code).child("players").child(userKey).child("kill").setValue(0)
