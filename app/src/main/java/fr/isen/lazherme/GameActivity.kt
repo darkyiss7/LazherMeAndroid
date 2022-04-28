@@ -1,12 +1,9 @@
 package fr.isen.lazherme
 
 import android.app.AlertDialog
-import android.content.Context
-import android.content.DialogInterface
-import android.content.Intent
+import android.content.*
 import android.os.Bundle
 import android.util.Log
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -26,6 +23,7 @@ private lateinit var playerMax : String
 private lateinit var temps : String
 private lateinit var userKey : String
 private lateinit var userEmail : String
+private lateinit var userTeam : String
 private lateinit var ownerEmail : String
 private lateinit var arrayAdapterBlue: UserAdapter
 private lateinit var arrayAdapterRed: UserAdapter
@@ -50,6 +48,7 @@ class GameActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.boutonChangerEquipe.setOnClickListener{
             changerEquipe()
+
            }
         binding.boutonCommencer.setOnClickListener{
             lancerPartie()
@@ -151,10 +150,14 @@ class GameActivity : AppCompatActivity() {
                             if (team=="blue"){
                                 userListBlue.remove(userEmail.substringBefore("@"))
                                 myRef.child(code).child("players").child(userKey).child("team").setValue("red")
+                                binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_left_24)
+                                changeTeamSTM("1")
 
                             }else{
                                 userListRed.remove(userEmail.substringBefore("@"))
                                 myRef.child(code).child("players").child(userKey).child("team").setValue("blue")
+                                binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_right_24)
+                                changeTeamSTM("0")
                             }
                     }
                 }
@@ -182,7 +185,19 @@ class GameActivity : AppCompatActivity() {
         }
         ref.child("ownerEmail").get().addOnSuccessListener {
             binding.boutonCommencer.isVisible = it.value.toString()== userEmail
+            binding.textView17.isVisible = it.value.toString()== userEmail
             ownerEmail =it.value.toString()
+        }.addOnFailureListener{
+        }
+        myRef.child(code).child("players").child(userKey).child("team").get().addOnSuccessListener {
+            userTeam = it.value.toString()
+            if (it.value.toString()=="blue"){
+                binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_right_24)
+                changeTeamSTM("0")
+            }else{
+                binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_left_24)
+                changeTeamSTM("1")
+            }
         }.addOnFailureListener{
         }
         ref.child("gameState").get().addOnSuccessListener {
@@ -191,6 +206,7 @@ class GameActivity : AppCompatActivity() {
                 intent.putExtra("code",code)
                 intent.putExtra("userKey",userKey)
                 intent.putExtra("userEmail",userEmail)
+                intent.putExtra("userTeam", userTeam)
                 startActivity(intent)
             }
         }.addOnFailureListener{
@@ -238,5 +254,11 @@ class GameActivity : AppCompatActivity() {
         getGameSpecs(this)
     }
     override fun onBackPressed() {
+    }
+    private fun changeTeamSTM(idTeam:String) {
+        val intent = Intent(this,BluetoothService::class.java)
+        intent.putExtra("idServ","1")
+        intent.putExtra("idTeam",idTeam)
+        startService(intent)
     }
 }

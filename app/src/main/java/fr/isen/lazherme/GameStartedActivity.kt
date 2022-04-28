@@ -1,7 +1,9 @@
 package fr.isen.lazherme
 
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -20,7 +22,10 @@ private lateinit var userListBlue : ArrayList<userData>
 private lateinit var userListRed : ArrayList<userData>
 private lateinit var code : String
 private lateinit var userEmail : String
+private lateinit var userTeam : String
 private lateinit var ownerEmail : String
+private lateinit var userKey : String
+private lateinit var userDeaths : String
 class GameStartedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         database = FirebaseDatabase.getInstance()
@@ -29,11 +34,17 @@ class GameStartedActivity : AppCompatActivity() {
         userListRed = arrayListOf<userData>()
         code = intent.getStringExtra("code").toString()
         userEmail = intent.getStringExtra("userEmail").toString()
+        userTeam = intent.getStringExtra("userTeam").toString()
+        userKey = intent.getStringExtra("userKey").toString()
         binding = ActivityGameStartedBinding.inflate(layoutInflater)
         getUsers(this)
         getGameSpecs()
+        getuserStats()
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+        val intentFilter = IntentFilter()
+        intentFilter.addAction(BluetoothService.MY_ACTION)
+        registerReceiver(broadcastReceiver, intentFilter)
         binding.boutonArreter.setOnClickListener{
             finPartie()
         }
@@ -51,6 +62,29 @@ class GameStartedActivity : AppCompatActivity() {
                 finPartie()
             }
         }.start()
+    }
+    var broadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
+        override fun onReceive(context: Context, intent: Intent) {
+            val s1 = intent.getStringExtra("DATAPASSED")
+            if (s1 != null) {
+                Log.e("touché par", s1)
+                myRef.child("Games").child(code).child("players").child(userKey).child("death").setValue(
+                    userDeaths.toInt()+1)
+            }
+        }
+    }
+    private fun getuserStats(){
+        val ref = myRef.child("Games").child(code).child("players").child(userKey)
+        ref.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userDeaths = snapshot.child("kill").value.toString()
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
     private fun getGameSpecs(){
         val ref = myRef.child("Games").child(code).child("gameSpecs")
@@ -118,5 +152,9 @@ class GameStartedActivity : AppCompatActivity() {
         })
     }
     override fun onBackPressed() {
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 }

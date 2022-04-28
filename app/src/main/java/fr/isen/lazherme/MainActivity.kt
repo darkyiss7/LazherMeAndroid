@@ -1,8 +1,9 @@
 package fr.isen.lazherme
 
 import android.annotation.SuppressLint
-import android.bluetooth.BluetoothAdapter
-import android.bluetooth.BluetoothManager
+import android.bluetooth.*
+import android.bluetooth.BluetoothGattCharacteristic.PERMISSION_WRITE
+import android.bluetooth.BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
@@ -11,14 +12,18 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.google.android.gms.common.util.Hex
 import fr.isen.lazherme.R
 import fr.isen.lazherme.databinding.ActivityMainBinding
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,12 +33,14 @@ class MainActivity : AppCompatActivity() {
     lateinit var swipeContainer: SwipeRefreshLayout
     private var isScanning = false
     private val listeBle = ArrayList<ScanResult>()
+    private var bluetoothGatt : BluetoothGatt? = null
+    private lateinit var bleCar : BluetoothGattCharacteristic
 
     private val bluetoothAdapter: BluetoothAdapter? by lazy {
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothManager.adapter
     }
-
+    @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         userKey = intent.getStringExtra("uid").toString()
         userEmail = intent.getStringExtra("email").toString()
@@ -42,11 +49,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bleScanList.layoutManager = LinearLayoutManager(this)
         binding.bleScanList.adapter = BleAdapter(listeBle){
-            val intent = Intent(this, HomeActivity::class.java)
-            intent.putExtra("uid",userKey)
-            intent.putExtra("email",userEmail)
-            intent.putExtra(ITEM_KEY, it)
-            startActivity(intent)
+            Log.w("ScanResultAdapter", "Connecting to ${it.address}")
+            //it.connectGatt(this, false, gattCallback)
+            connectToDevice(this,it)
         }
         supportActionBar?.hide()
         swipeContainer = findViewById(R.id.swipeContainer)
@@ -56,7 +61,6 @@ class MainActivity : AppCompatActivity() {
                     onRefresh()
                 }
             }
-
             bluetoothAdapter != null ->
                 askBluetoothPermission()
             else -> {
@@ -70,6 +74,16 @@ class MainActivity : AppCompatActivity() {
             startLeScanBLEWithPermission(!isScanning)
         }
     }
+
+    private fun connectToDevice(context: Context,device:BluetoothDevice) {
+        val intent = Intent(context,BluetoothService::class.java)
+        intent.putExtra("idServ","0")
+        intent.putExtra(ITEM_KEY, device)
+        intent.putExtra("address",userEmail)
+        intent.putExtra("uid",userKey)
+        startService(intent)
+    }
+
     fun onRefresh(){
         binding.texteSwipe.isVisible = false
         startLeScanBLEWithPermission(true)

@@ -33,6 +33,8 @@ class HomeActivity : AppCompatActivity() {
         binding.texteMode.text = getString(R.string.MME)
         binding.texteTemps.text = temps.toString()
         userEmail = intent.getStringExtra("email").toString()
+        supportActionBar?.title = userEmail.substringBefore("@")
+        supportActionBar?.setIcon(R.drawable.ic_baseline_person_24)
         binding.button2.setOnClickListener{
             code = getRandomString(5)
             myRef.child("Games").child(code).child("gameSpecs").child("ownerEmail").setValue(userEmail)
