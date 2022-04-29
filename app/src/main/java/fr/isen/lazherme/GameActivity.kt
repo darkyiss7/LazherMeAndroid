@@ -184,7 +184,10 @@ class GameActivity : AppCompatActivity() {
             getGameMode(it.value.toString())
         }.addOnFailureListener{
         }
-
+        ref.child("playersInGame").get().addOnSuccessListener {
+            playerMax = it.value.toString()
+        }.addOnFailureListener{
+        }
         ref.child("playerMax").get().addOnSuccessListener {
             playerMax = it.value.toString()
             binding.texteJoueurMax.text = getString(R.string.joueurs_max,playersInGame,it.value)
