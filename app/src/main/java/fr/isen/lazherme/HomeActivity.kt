@@ -51,6 +51,7 @@ class HomeActivity : AppCompatActivity() {
             myRef.child("Games").child(code).child("players").child(userKey).child("team").setValue("blue")
             myRef.child("Games").child(code).child("players").child(userKey).child("kill").setValue(0)
             myRef.child("Games").child(code).child("players").child(userKey).child("death").setValue(0)
+            myRef.child("Games").child(code).child("players").child(userKey).child("idInGame").setValue(0)
             myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("games").child(code).setValue(0)
             val intent = Intent(this, GameActivity::class.java)
             intent.putExtra("code",code)
@@ -144,10 +145,17 @@ class HomeActivity : AppCompatActivity() {
         val ref = myRef.child("Games").child(binding.code.text.toString())
         ref.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
+                var grandId = 0
                 if(snapshot.exists()){
+                    for (userSnapchot in snapshot.child("players").children) {
+                        var id = userSnapchot.child("idInGame").value.toString()
+                        if (id.toInt()>grandId){
+                            grandId = id.toInt()
+                        }
+                    }
                      ref.child("gameSpecs").child("playersInGame").get().addOnSuccessListener {
                          var playersInGame = it.value.toString()
-                         openGame(playersInGame.toInt())
+                         openGame(playersInGame.toInt(),grandId)
                     }.addOnFailureListener{
                     }
 
@@ -163,13 +171,14 @@ class HomeActivity : AppCompatActivity() {
 
         })
     }
-    private fun openGame(playersInGame : Int) {
+    private fun openGame(playersInGame : Int,grandId : Int) {
         var codeGame = binding.code.text.toString()
         userKey = myRef.child("Games").child(codeGame).child("players").push().key.toString()
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("email").setValue(userEmail)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("team").setValue("red")
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("kill").setValue(0)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("death").setValue(0)
+        myRef.child("Games").child(codeGame).child("players").child(userKey).child("idInGame").setValue(grandId)
         myRef.child("Games").child(codeGame).child("gameSpecs").child("playersInGame").setValue(playersInGame+1)
         myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("games").child(codeGame).setValue(0)
         val intent = Intent(this, GameActivity::class.java)
