@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import fr.isen.lazherme.databinding.ActivityHomeBinding
 
@@ -57,7 +58,8 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.button3.setOnClickListener{
-            checkGame(this)
+                checkGame(this)
+                Toast.makeText(this, "Partie introuvable", Toast.LENGTH_SHORT).show()
         }
         binding.boutonModeDroite.setOnClickListener{changemode(1)}
         binding.boutonModeGauche.setOnClickListener{changemode(0)}
@@ -115,9 +117,22 @@ class HomeActivity : AppCompatActivity() {
         return super.onCreateOptionsMenu(menu)
     }
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        val intent = Intent(this, MainActivity::class.java)
-        startActivity(intent)
-        return super.onOptionsItemSelected(item)
+        return when (item.itemId) {
+            R.id.profile -> {
+                true
+            }
+            R.id.historique ->{
+                return true
+            }
+            R.id.dexonnexion ->{
+                val intent = Intent(this, SignInActivity::class.java)
+                FirebaseAuth.getInstance().signOut()
+                startActivity(intent)
+                Toast.makeText(this, "Déconnexion...", Toast.LENGTH_SHORT).show()
+                return true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
     fun getRandomString(length: Int) : String {
         val allowedChars = ('A'..'Z') + ('0'..'9')

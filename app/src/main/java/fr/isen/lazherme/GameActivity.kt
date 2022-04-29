@@ -131,6 +131,11 @@ class GameActivity : AppCompatActivity() {
                         intent.putExtra("time",temps)
                         startActivity(intent)
                     }
+                }else{
+                    val intent = Intent(context, HomeActivity::class.java)
+                    intent.putExtra("userKey",userKey)
+                    intent.putExtra("email",userEmail)
+                    startActivity(intent)
                 }
             }
 

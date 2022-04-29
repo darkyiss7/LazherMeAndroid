@@ -5,7 +5,17 @@
     <item
         android:id="@+id/action_home"
         android:title="Home"
-        android:icon="@drawable/ic_baseline_bluetooth_24"
+        android:icon="@drawable/ic_baseline_menu_24"
         app:showAsAction="always">
+        <menu>
+            <item android:title="Profile"
+                android:id="@+id/profile" />
+
+            <item android:title="Historique"
+                android:id="@+id/historique"/>
+
+            <item android:title="Deconnexion"
+                android:id="@+id/dexonnexion"/>
+        </menu>
     </item>
 </menu>

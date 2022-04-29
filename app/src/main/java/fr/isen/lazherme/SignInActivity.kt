@@ -40,7 +40,7 @@ class SignInActivity : AppCompatActivity() {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
                         myRef.child("Users").child(firebaseAuth.currentUser!!.uid).setValue(firebaseAuth.currentUser!!.email)
-                        val intent = Intent(this, HomeActivity::class.java)
+                        val intent = Intent(this, MainActivity::class.java)
                         intent.putExtra("uid",firebaseAuth.currentUser!!.uid)
                         intent.putExtra("email",firebaseAuth.currentUser!!.email)
                         startActivity(intent)
