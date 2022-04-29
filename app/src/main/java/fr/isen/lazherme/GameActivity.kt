@@ -51,7 +51,6 @@ class GameActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.boutonChangerEquipe.setOnClickListener{
             changerEquipe()
-
            }
         binding.boutonCommencer.setOnClickListener{
             lancerPartie()
@@ -66,10 +65,11 @@ class GameActivity : AppCompatActivity() {
         ref.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
-
+                    var userid =  snapshot.child("idInGame").value
+                    changeTeamSTM(userid.toString())
                 }else{
                     val intent = Intent(context, HomeActivity::class.java)
-                    intent.putExtra("userKey",userKey)
+                    intent.putExtra("uid",userKey)
                     intent.putExtra("email",userEmail)
                     startActivity(intent)
                 }
@@ -98,11 +98,7 @@ class GameActivity : AppCompatActivity() {
                                 if(ownerEmail== userEmail){
                                     myRef.child(code).setValue(null)
                                 }
-                                val intent = Intent(context, HomeActivity::class.java)
-                                intent.putExtra("userKey",userKey)
-                                intent.putExtra("email",userEmail)
-                                intent.putExtra("uid",userKey)
-                                startActivity(intent)
+                                estDansLaPartie(this@GameActivity)
                             })
                         .setNegativeButton("Non", null).show()
 
@@ -161,13 +157,13 @@ class GameActivity : AppCompatActivity() {
                                 userListBlue.remove(userEmail.substringBefore("@"))
                                 myRef.child(code).child("players").child(userKey).child("team").setValue("red")
                                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_left_24)
-                                //changeTeamSTM("1")
+                                changeTeamSTM("a")
 
                             }else{
                                 userListRed.remove(userEmail.substringBefore("@"))
                                 myRef.child(code).child("players").child(userKey).child("team").setValue("blue")
                                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_right_24)
-                                //changeTeamSTM("0")
+                                changeTeamSTM("b")
                             }
                     }
                 }
@@ -185,7 +181,7 @@ class GameActivity : AppCompatActivity() {
         }.addOnFailureListener{
         }
         ref.child("playersInGame").get().addOnSuccessListener {
-            playerMax = it.value.toString()
+            playersInGame = it.value.toString()
         }.addOnFailureListener{
         }
         ref.child("playerMax").get().addOnSuccessListener {
@@ -209,10 +205,10 @@ class GameActivity : AppCompatActivity() {
             userTeam = it.value.toString()
             if (it.value.toString()=="blue"){
                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_right_24)
-               // changeTeamSTM("0")
+                changeTeamSTM("0")
             }else{
                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_left_24)
-                //changeTeamSTM("1")
+                changeTeamSTM("1")
             }
         }.addOnFailureListener{
         }

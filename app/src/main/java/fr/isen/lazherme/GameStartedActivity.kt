@@ -20,6 +20,7 @@ private lateinit var arrayAdapterBlue: UserAdapter2
 private lateinit var arrayAdapterRed: UserAdapter2
 private lateinit var userListBlue : ArrayList<userData>
 private lateinit var userListRed : ArrayList<userData>
+private lateinit var userList : ArrayList<userUids>
 private lateinit var code : String
 private lateinit var userEmail : String
 private lateinit var userTeam : String
@@ -34,6 +35,7 @@ class GameStartedActivity : AppCompatActivity() {
         myRef = database.reference
         userListBlue = arrayListOf<userData>()
         userListRed = arrayListOf<userData>()
+        userList = arrayListOf<userUids>()
         code = intent.getStringExtra("code").toString()
         userEmail = intent.getStringExtra("userEmail").toString()
         userTeam = intent.getStringExtra("userTeam").toString()
@@ -72,7 +74,6 @@ class GameStartedActivity : AppCompatActivity() {
                 Log.e("touché par", s1)
                 myRef.child("Games").child(code).child("players").child(userKey).child("death").setValue(
                     userDeaths.toInt()+1)
-                Log.d("team", userTeam)
                 if(userTeam=="red"){
                     myRef.child("Games").child(code).child("gameSpecs").child("scoreBlue").setValue(
                         scoreBleu.toInt()+1)
@@ -140,6 +141,7 @@ class GameStartedActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 userListBlue.clear()
                 userListRed.clear()
+                userList.clear()
                 if(snapshot.exists()){
                     for (userSnapchot in snapshot.children){
                         var email = userSnapchot.child("email").getValue().toString()
@@ -147,6 +149,8 @@ class GameStartedActivity : AppCompatActivity() {
                         var deaths = userSnapchot.child("death").getValue().toString()
                         email = email.substringBefore("@")
                         var team = userSnapchot.child("team").getValue().toString()
+                        var id = userSnapchot.child("idInGame").getValue().toString()
+                        userList.add(userUids(userSnapchot.key.toString(),id))
                         if (team=="blue"){
                             userListBlue.add(userData(email,kills,deaths))
                         }else{

@@ -39,12 +39,6 @@ class BluetoothService : Service() {
                 var idTeam = intent.getStringExtra("idTeam").toString()
                 writeCharacteristic(teamCaracteristique,idTeam)
             }
-            if(intent.getStringExtra("idServ").toString()=="2"){
-                var idTeam = intent.getStringExtra("idTeam").toString()
-                writeCharacteristic(teamCaracteristique,idTeam)
-            }
-
-
         }
         return START_NOT_STICKY;
     }
@@ -229,6 +223,7 @@ class BluetoothService : Service() {
                 userHitCaracteristique = service.getCharacteristic(UUID.fromString("0000fe42-8e22-4541-9d4c-21edae82ed19"))
                 enableNotifications(userHitCaracteristique)
             }
+
             val characteristicsTable = service.characteristics.joinToString(
                 separator = "\n|--",
                 prefix = "|--"

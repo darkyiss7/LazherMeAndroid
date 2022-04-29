@@ -36,6 +36,7 @@ class HomeActivity : AppCompatActivity() {
         userEmail = intent.getStringExtra("email").toString()
         supportActionBar?.title = userEmail.substringBefore("@")
         supportActionBar?.setIcon(R.drawable.ic_baseline_person_24)
+        userKey = intent.getStringExtra("uid").toString()
         binding.button2.setOnClickListener{
             code = getRandomString(5)
             myRef.child("Games").child(code).child("gameSpecs").child("ownerEmail").setValue(userEmail)
@@ -45,8 +46,6 @@ class HomeActivity : AppCompatActivity() {
             myRef.child("Games").child(code).child("gameSpecs").child("timeMax").setValue(temps)
             myRef.child("Games").child(code).child("gameSpecs").child("playersInGame").setValue(1)
             myRef.child("Games").child(code).child("gameSpecs").child("gameState").setValue(0)
-            userKey = intent.getStringExtra("uid").toString()
-            Log.d("userkey", userKey)
             myRef.child("Games").child(code).child("players").child(userKey).child("email").setValue(userEmail)
             myRef.child("Games").child(code).child("players").child(userKey).child("team").setValue("blue")
             myRef.child("Games").child(code).child("players").child(userKey).child("kill").setValue(0)
@@ -60,6 +59,10 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.button3.setOnClickListener{
+            var gamecode = binding.code.text.toString()
+            if (gamecode == "") {
+                Toast.makeText(this, "Veuillez saisir un code", Toast.LENGTH_SHORT).show();
+            }else
                 checkGame(this)
         }
         binding.boutonModeDroite.setOnClickListener{changemode(1)}
@@ -173,12 +176,11 @@ class HomeActivity : AppCompatActivity() {
     }
     private fun openGame(playersInGame : Int,grandId : Int) {
         var codeGame = binding.code.text.toString()
-        userKey = myRef.child("Games").child(codeGame).child("players").push().key.toString()
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("email").setValue(userEmail)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("team").setValue("red")
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("kill").setValue(0)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("death").setValue(0)
-        myRef.child("Games").child(codeGame).child("players").child(userKey).child("idInGame").setValue(grandId)
+        myRef.child("Games").child(codeGame).child("players").child(userKey).child("idInGame").setValue(grandId+1)
         myRef.child("Games").child(codeGame).child("gameSpecs").child("playersInGame").setValue(playersInGame+1)
         myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("games").child(codeGame).setValue(0)
         val intent = Intent(this, GameActivity::class.java)
