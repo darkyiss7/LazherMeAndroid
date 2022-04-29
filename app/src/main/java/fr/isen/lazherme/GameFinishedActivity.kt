@@ -10,6 +10,7 @@ import fr.isen.lazherme.databinding.ActivityGameFinishedBinding
 private lateinit var binding : ActivityGameFinishedBinding
 private lateinit var userKey : String
 private lateinit var userEmail : String
+private lateinit var userTeam : String
 private lateinit var code : String
 private lateinit var scoreBleu : String
 private lateinit var scoreRouge : String
@@ -25,7 +26,10 @@ class GameFinishedActivity : AppCompatActivity() {
         userKey = intent.getStringExtra("userKey").toString()
         userEmail = intent.getStringExtra("userEmail").toString()
         code = intent.getStringExtra("code").toString()
+        userTeam = intent.getStringExtra("userTeam").toString()
         getGameSpecs()
+
+
         binding.homeButton.setOnClickListener{
             val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra("uid", userKey)
@@ -39,6 +43,19 @@ class GameFinishedActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 scoreBleu = snapshot.child("scoreBlue").value.toString()
                 scoreRouge = snapshot.child("scoreRed").value.toString()
+                if (scoreBleu == scoreRouge){
+                    binding.textWin.text = "Egalité"
+                    binding.backgroundView.setImageResource(R.color.green)
+                }
+                if (scoreBleu< scoreRouge){
+                    if (userTeam=="blue"){
+                        binding.textWin.text = "Défaite"
+                        binding.backgroundView.setImageResource(R.color.red)
+                    }else{
+                        binding.textWin.text = "Victoire"
+                        binding.backgroundView.setImageResource(R.color.green)
+                    }
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {

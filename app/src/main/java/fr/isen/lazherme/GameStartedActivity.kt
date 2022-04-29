@@ -133,6 +133,7 @@ class GameStartedActivity : AppCompatActivity() {
         Log.d("code started :",code)
         intent.putExtra("userKey", userKey)
         intent.putExtra("userEmail", userEmail)
+        intent.putExtra("userTeam", userTeam)
         startActivity(intent)
     }
     private fun getUsers(context : Context) {
