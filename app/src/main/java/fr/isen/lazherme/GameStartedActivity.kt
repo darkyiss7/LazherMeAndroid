@@ -129,6 +129,7 @@ class GameStartedActivity : AppCompatActivity() {
     private fun ouvreLeaderboard(){
         val intent = Intent(this, GameFinishedActivity::class.java)
         intent.putExtra("code",code)
+        Log.d("code started :",code)
         intent.putExtra("userKey", userKey)
         intent.putExtra("userEmail", userEmail)
         startActivity(intent)

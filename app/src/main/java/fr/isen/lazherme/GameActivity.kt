@@ -25,6 +25,7 @@ private lateinit var userKey : String
 private lateinit var userEmail : String
 private lateinit var userTeam : String
 private lateinit var ownerEmail : String
+private lateinit var playersInGame : String
 private lateinit var arrayAdapterBlue: UserAdapter
 private lateinit var arrayAdapterRed: UserAdapter
 
@@ -42,6 +43,8 @@ class GameActivity : AppCompatActivity() {
         userListRed = arrayListOf<String>()
         userKey = intent.getStringExtra("userKey").toString()
         userEmail = intent.getStringExtra("userEmail").toString()
+        getPlayerInGame()
+        getGameSpecs(this)
         estDansLaPartie(this)
         getUsers(this)
         getGameState(this)
@@ -89,6 +92,8 @@ class GameActivity : AppCompatActivity() {
                         .setPositiveButton("Oui",
                             DialogInterface.OnClickListener { dialog, whichButton ->
                                 ref.removeValue()
+                                myRef.child(code).child("gameSpecs").child("playersInGame").setValue(
+                                    playersInGame.toInt()-1)
                                 ref2.child(userKey).child("games").child(code).setValue(null)
                                 if(ownerEmail== userEmail){
                                     myRef.child(code).setValue(null)
@@ -156,13 +161,13 @@ class GameActivity : AppCompatActivity() {
                                 userListBlue.remove(userEmail.substringBefore("@"))
                                 myRef.child(code).child("players").child(userKey).child("team").setValue("red")
                                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_left_24)
-                                changeTeamSTM("1")
+                                //changeTeamSTM("1")
 
                             }else{
                                 userListRed.remove(userEmail.substringBefore("@"))
                                 myRef.child(code).child("players").child(userKey).child("team").setValue("blue")
                                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_right_24)
-                                changeTeamSTM("0")
+                                //changeTeamSTM("0")
                             }
                     }
                 }
@@ -179,10 +184,13 @@ class GameActivity : AppCompatActivity() {
             getGameMode(it.value.toString())
         }.addOnFailureListener{
         }
+
         ref.child("playerMax").get().addOnSuccessListener {
-            binding.texteJoueurMax.text = getString(R.string.joueurs_max,it.value)
+            playerMax = it.value.toString()
+            binding.texteJoueurMax.text = getString(R.string.joueurs_max,playersInGame,it.value)
         }.addOnFailureListener{
         }
+
         ref.child("timeMax").get().addOnSuccessListener {
             temps = it.value.toString()
             binding.texteTempsMax.text =  getString(R.string.temps_max,it.value.toString())
@@ -198,10 +206,10 @@ class GameActivity : AppCompatActivity() {
             userTeam = it.value.toString()
             if (it.value.toString()=="blue"){
                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_right_24)
-                changeTeamSTM("0")
+               // changeTeamSTM("0")
             }else{
                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_left_24)
-                changeTeamSTM("1")
+                //changeTeamSTM("1")
             }
         }.addOnFailureListener{
         }
@@ -254,9 +262,25 @@ class GameActivity : AppCompatActivity() {
 
         })
     }
+    private fun getPlayerInGame() {
+        val ref = myRef.child(code).child("gameSpecs")
+        ref.addValueEventListener(object :ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+               playersInGame = snapshot.child("playersInGame").value.toString()
+                playerMax = snapshot.child("playerMax").value.toString()
+                binding.texteJoueurMax.text = getString(R.string.joueurs_max,playersInGame,
+                    playerMax)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
     override fun onStart() {
         super.onStart()
-        getGameSpecs(this)
+
     }
     override fun onBackPressed() {
     }

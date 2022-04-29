@@ -3,6 +3,7 @@ package fr.isen.lazherme
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import fr.isen.lazherme.databinding.ActivitySignInBinding
@@ -39,11 +40,15 @@ class SignInActivity : AppCompatActivity() {
 
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
-                        myRef.child("Users").child(firebaseAuth.currentUser!!.uid).setValue(firebaseAuth.currentUser!!.email)
+                       /* myRef.child("Users").child(firebaseAuth.currentUser!!.uid).setValue(firebaseAuth.currentUser!!.email)
                         val intent = Intent(this, MainActivity::class.java)
                         intent.putExtra("uid",firebaseAuth.currentUser!!.uid)
                         intent.putExtra("email",firebaseAuth.currentUser!!.email)
-                        startActivity(intent)
+                        startActivity(intent)*/
+                        val intentTest = Intent(this, HomeActivity::class.java)
+                        intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
+                        intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
+                        startActivity(intentTest)
                     } else {
                         Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
 
@@ -60,10 +65,14 @@ class SignInActivity : AppCompatActivity() {
         super.onStart()
 
         if(firebaseAuth.currentUser != null){
-            val intent = Intent(this, MainActivity::class.java)
+            /*val intent = Intent(this, MainActivity::class.java)
             intent.putExtra("email",firebaseAuth.currentUser!!.email)
             intent.putExtra("uid",firebaseAuth.currentUser!!.uid)
-            startActivity(intent)
+            startActivity(intent)*/
+            val intentTest = Intent(this, HomeActivity::class.java)
+            intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
+            intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
+            startActivity(intentTest)
         }
     }
 }

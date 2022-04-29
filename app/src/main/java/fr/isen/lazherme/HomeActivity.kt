@@ -43,6 +43,7 @@ class HomeActivity : AppCompatActivity() {
             myRef.child("Games").child(code).child("gameSpecs").child("gameMode").setValue(mode)
             myRef.child("Games").child(code).child("gameSpecs").child("playerMax").setValue(count)
             myRef.child("Games").child(code).child("gameSpecs").child("timeMax").setValue(temps)
+            myRef.child("Games").child(code).child("gameSpecs").child("playersInGame").setValue(1)
             myRef.child("Games").child(code).child("gameSpecs").child("gameState").setValue(0)
             userKey = intent.getStringExtra("uid").toString()
             Log.d("userkey", userKey)
@@ -59,7 +60,6 @@ class HomeActivity : AppCompatActivity() {
         }
         binding.button3.setOnClickListener{
                 checkGame(this)
-                Toast.makeText(this, "Partie introuvable", Toast.LENGTH_SHORT).show()
         }
         binding.boutonModeDroite.setOnClickListener{changemode(1)}
         binding.boutonModeGauche.setOnClickListener{changemode(0)}
@@ -142,11 +142,15 @@ class HomeActivity : AppCompatActivity() {
     }
     private fun checkGame(context:Context) {
         val ref = myRef.child("Games").child(binding.code.text.toString())
-        Log.d("code",binding.code.text.toString())
         ref.addListenerForSingleValueEvent(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
-                    openGame()
+                     ref.child("gameSpecs").child("playersInGame").get().addOnSuccessListener {
+                         var playersInGame = it.value.toString()
+                         openGame(playersInGame.toInt())
+                    }.addOnFailureListener{
+                    }
+
                 }else{
                     Toast.makeText(context, "Partie introuvable", Toast.LENGTH_SHORT).show()
                 }
@@ -159,13 +163,14 @@ class HomeActivity : AppCompatActivity() {
 
         })
     }
-    private fun openGame() {
+    private fun openGame(playersInGame : Int) {
         var codeGame = binding.code.text.toString()
         userKey = myRef.child("Games").child(codeGame).child("players").push().key.toString()
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("email").setValue(userEmail)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("team").setValue("red")
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("kill").setValue(0)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("death").setValue(0)
+        myRef.child("Games").child(codeGame).child("gameSpecs").child("playersInGame").setValue(playersInGame+1)
         myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("games").child(codeGame).setValue(0)
         val intent = Intent(this, GameActivity::class.java)
         intent.putExtra("code",binding.code.text.toString())

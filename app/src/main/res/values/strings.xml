@@ -33,6 +33,6 @@
     <string name="saisissez_le_code">Saisissez le code</string>
     <string name="temps_max">Temps : %1$s min</string>
     <string name="mode_jeu">Mode : %1$s </string>
-    <string name="joueurs_max">Joueurs max : %1$s </string>
+    <string name="joueurs_max">Joueurs : %1$s/%2$s </string>
     <string name="code_de_la_partie">Code de la partie :</string>
 </resources>
