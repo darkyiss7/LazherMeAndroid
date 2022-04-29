@@ -26,6 +26,8 @@ private lateinit var userTeam : String
 private lateinit var ownerEmail : String
 private lateinit var userKey : String
 private lateinit var userDeaths : String
+private lateinit var scoreBleu : String
+private lateinit var scoreRouge : String
 class GameStartedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         database = FirebaseDatabase.getInstance()
@@ -70,6 +72,16 @@ class GameStartedActivity : AppCompatActivity() {
                 Log.e("touché par", s1)
                 myRef.child("Games").child(code).child("players").child(userKey).child("death").setValue(
                     userDeaths.toInt()+1)
+                Log.d("team", userTeam)
+                if(userTeam=="red"){
+                    myRef.child("Games").child(code).child("gameSpecs").child("scoreBlue").setValue(
+                        scoreBleu.toInt()+1)
+                }
+                if(userTeam=="blue"){
+                    myRef.child("Games").child(code).child("gameSpecs").child("scoreRed").setValue(
+                        scoreRouge.toInt()+1)
+                }
+
             }
         }
     }
@@ -77,7 +89,8 @@ class GameStartedActivity : AppCompatActivity() {
         val ref = myRef.child("Games").child(code).child("players").child(userKey)
         ref.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
-                userDeaths = snapshot.child("kill").value.toString()
+                userDeaths = snapshot.child("death").value.toString()
+                userTeam = snapshot.child("team").value.toString()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -95,6 +108,8 @@ class GameStartedActivity : AppCompatActivity() {
                     ouvreLeaderboard()
                     Log.d("gamestate","fin partie")
                 }
+                scoreBleu = snapshot.child("scoreBlue").value.toString()
+                scoreRouge = snapshot.child("scoreRed").value.toString()
                 binding.scoreBleu.text = snapshot.child("scoreBlue").value.toString()
                 binding.scoreRouge.text = snapshot.child("scoreRed").value.toString()
                 ownerEmail = snapshot.child("ownerEmail").value.toString()
@@ -114,6 +129,8 @@ class GameStartedActivity : AppCompatActivity() {
     private fun ouvreLeaderboard(){
         val intent = Intent(this, GameFinishedActivity::class.java)
         intent.putExtra("code",code)
+        intent.putExtra("userKey", userKey)
+        intent.putExtra("userEmail", userEmail)
         startActivity(intent)
     }
     private fun getUsers(context : Context) {
