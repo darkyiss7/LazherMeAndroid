@@ -27,8 +27,9 @@ class GameFinishedActivity : AppCompatActivity() {
         code = intent.getStringExtra("code").toString()
         getGameSpecs()
         binding.homeButton.setOnClickListener{
-            val intent = Intent(this, GameFinishedActivity::class.java)
-            intent.putExtra("code",code)
+            val intent = Intent(this, HomeActivity::class.java)
+            intent.putExtra("uid", userKey)
+            intent.putExtra("email", userEmail)
             startActivity(intent)
         }
     }
