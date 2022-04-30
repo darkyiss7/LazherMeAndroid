@@ -7,34 +7,64 @@
     tools:context=".ProfileActivity">
 
     <ImageView
-        android:id="@+id/imageView15"
+        android:id="@+id/imageView14"
         android:layout_width="1000dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="-100dp"
-        android:layout_marginTop="-100dp"
+        android:layout_height="1000dp"
+        android:layout_marginTop="-360dp"
+        android:src="@drawable/ic_wave_haikei2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@drawable/ic_blob2" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView15"
+        android:layout_width="1000dp"
+        android:layout_height="1000dp"
+        android:layout_marginTop="-380dp"
+        android:src="@drawable/ic_wave_haikei"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView11"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:layout_marginTop="24dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_baseline_person_24" />
+        app:srcCompat="@drawable/ic_baseline_account_circle_24" />
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/PseudoLayout"
+        style="@style/LoginTextInputOuterFieldStyle"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="50dp"
+        app:boxStrokeColor="@color/purple_dark"
+        app:hintTextColor="@color/purple_dark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView11">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/newPseudo"
+            style="@style/LoginTextInputInnerFieldStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Noveau pseudo"
+            android:inputType="text" />
+    </com.google.android.material.textfield.TextInputLayout>
     <TextView
         android:id="@+id/usernameText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="50dp"
         android:fontFamily="@font/blinker"
         android:text="TextView"
-        android:textColor="@color/white"
+        android:textColor="@color/dark_grey"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,13 +74,43 @@
         android:id="@+id/emailText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="120dp"
         android:fontFamily="@font/blinker"
         android:text="TextView"
-        android:textColor="@color/white"
+        android:textColor="@color/dark_grey"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/usernameText" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView11" />
+
+    <ImageView
+        android:id="@+id/editButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/usernameText"
+        app:layout_constraintStart_toEndOf="@+id/usernameText"
+        app:layout_constraintTop_toTopOf="@+id/usernameText"
+        app:srcCompat="@drawable/ic_baseline_edit_24" />
+
+    <ImageView
+        android:id="@+id/checkButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintBottom_toBottomOf="@+id/PseudoLayout"
+        app:layout_constraintStart_toEndOf="@+id/PseudoLayout"
+        app:layout_constraintTop_toTopOf="@+id/PseudoLayout"
+        app:srcCompat="@drawable/ic_baseline_check_circle_24" />
+
+    <ImageView
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toBottomOf="@+id/checkButton"
+        app:layout_constraintStart_toEndOf="@+id/checkButton"
+        app:layout_constraintTop_toTopOf="@+id/checkButton"
+        app:srcCompat="@drawable/ic_baseline_cancel_24" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -18,6 +18,7 @@ private lateinit var myRef: DatabaseReference
 private lateinit var database : FirebaseDatabase
 class GameFinishedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportActionBar?.hide()
         database = FirebaseDatabase.getInstance()
         myRef = database.reference
         binding = ActivityGameFinishedBinding.inflate(layoutInflater)

@@ -130,6 +130,10 @@ class HomeActivity : AppCompatActivity() {
                 return true
             }
             R.id.historique ->{
+                val intent = Intent(this, HistoryActivity::class.java)
+                intent.putExtra("userKey",userKey)
+                intent.putExtra("userEmail",userEmail)
+                startActivity(intent)
                 return true
             }
             R.id.dexonnexion ->{

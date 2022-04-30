@@ -32,6 +32,7 @@ private lateinit var scoreRouge : String
 private lateinit var timer: CountDownTimer
 class GameStartedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportActionBar?.hide()
         database = FirebaseDatabase.getInstance()
         myRef = database.reference
         userListBlue = arrayListOf<userData>()
