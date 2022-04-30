@@ -29,6 +29,7 @@ private lateinit var userKey : String
 private lateinit var userDeaths : String
 private lateinit var scoreBleu : String
 private lateinit var scoreRouge : String
+private lateinit var timer: CountDownTimer
 class GameStartedActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         database = FirebaseDatabase.getInstance()
@@ -54,7 +55,7 @@ class GameStartedActivity : AppCompatActivity() {
         }
         var time = intent.getStringExtra("time").toString()
         var timesec = time.toLong()*60000
-        object : CountDownTimer(timesec, 1000) {
+       timer = object : CountDownTimer(timesec, 1000) {
             override fun onTick(millisUntilFinished: Long) {
                 binding.texteTimer.text = String.format("%02d : %02d",
                     TimeUnit.MILLISECONDS.toMinutes(millisUntilFinished),
@@ -106,6 +107,7 @@ class GameStartedActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 var gamestate = snapshot.child("gameState").value
                 if(gamestate.toString()=="2"){
+                    timer.cancel()
                     ouvreLeaderboard()
                     Log.d("gamestate","fin partie")
                 }
@@ -179,5 +181,7 @@ class GameStartedActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        timer.cancel()
     }
+
 }

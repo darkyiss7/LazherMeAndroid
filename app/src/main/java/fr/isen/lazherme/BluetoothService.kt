@@ -66,9 +66,10 @@ class BluetoothService : Service() {
             val deviceAddress = gatt.device.address
 
             if (status == BluetoothGatt.GATT_SUCCESS) {
-                lunchHome()
+
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     Log.w("BluetoothGattCallback", "Successfully connected to $deviceAddress")
+                    lunchHome()
                     bluetoothGatt = gatt
                     Handler(Looper.getMainLooper()).post {
                         bluetoothGatt?.discoverServices()

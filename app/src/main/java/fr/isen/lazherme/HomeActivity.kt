@@ -123,7 +123,11 @@ class HomeActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.profile -> {
-                true
+                val intent = Intent(this, ProfileActivity::class.java)
+                intent.putExtra("userKey",userKey)
+                intent.putExtra("userEmail",userEmail)
+                startActivity(intent)
+                return true
             }
             R.id.historique ->{
                 return true
