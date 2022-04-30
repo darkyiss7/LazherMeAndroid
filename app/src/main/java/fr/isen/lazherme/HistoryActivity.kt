@@ -9,7 +9,7 @@ private lateinit var database : FirebaseDatabase
 private lateinit var myRef: DatabaseReference
 private lateinit var userKey: String
 private lateinit var gameList : ArrayList<String>
-
+private lateinit var arrayAdapterGame: HistoryAdapter
 class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         gameList = arrayListOf<String>()
@@ -26,6 +26,9 @@ class HistoryActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 for (game in snapshot.children) {
                     gameList.add(game.value.toString())
+                    arrayAdapterGame= HistoryAdapter(gameList)
+                    binding.redList.layoutManager = LinearLayoutManager(context)
+                    binding.redList.adapter = arrayAdapterRed
                 }
             }
 
