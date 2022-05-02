@@ -22,8 +22,7 @@ class SignInActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
-
-
+        supportActionBar?.hide()
         firebaseAuth = FirebaseAuth.getInstance()
         database = FirebaseDatabase.getInstance()
         myRef = database.reference
@@ -65,14 +64,14 @@ class SignInActivity : AppCompatActivity() {
         super.onStart()
 
         if(firebaseAuth.currentUser != null){
-            val intent = Intent(this, MainActivity::class.java)
-            intent.putExtra("email",firebaseAuth.currentUser!!.email)
-            intent.putExtra("uid",firebaseAuth.currentUser!!.uid)
-            startActivity(intent)
-/* val intentTest = Intent(this, HomeActivity::class.java)
- intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
- intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
- startActivity(intentTest)*/
+            /*  val intent = Intent(this, MainActivity::class.java)
+              intent.putExtra("email",firebaseAuth.currentUser!!.email)
+              intent.putExtra("uid",firebaseAuth.currentUser!!.uid)
+              startActivity(intent)*/
+   val intentTest = Intent(this, HomeActivity::class.java)
+   intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
+   intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
+   startActivity(intentTest)
 }
 }
 }

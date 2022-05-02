@@ -18,6 +18,7 @@ private lateinit var arrayAdapterGame: HistoryAdapter
 private lateinit var binding : ActivityHistoryBinding
 class HistoryActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        supportActionBar?.hide()
         gameList = arrayListOf<String>()
         database = FirebaseDatabase.getInstance()
         myRef = database.reference
@@ -32,6 +33,7 @@ class HistoryActivity : AppCompatActivity() {
         val ref = myRef.child("Users").child(userKey).child("games")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
+                gameList.clear()
                 for (game in snapshot.children) {
                     gameList.add(game.key.toString())
                     arrayAdapterGame= HistoryAdapter(gameList)
