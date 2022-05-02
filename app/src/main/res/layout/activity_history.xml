@@ -9,28 +9,29 @@
         android:id="@+id/imageView25"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="-14dp"
+        android:layout_marginBottom="-35dp"
         app:layout_constraintBottom_toBottomOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:src="@color/dark_grey" />
+
     <ImageView
         android:id="@+id/imageView16"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="-8dp"
+        android:layout_marginBottom="-24dp"
+        android:src="@color/purple_dark"
         app:layout_constraintBottom_toBottomOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@color/purple_dark" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/bebas_neue"
         android:text="Historique des parties"
         android:textColor="@color/white"

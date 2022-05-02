@@ -20,6 +20,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
         database = FirebaseDatabase.getInstance()
         myRef = database.getReference("Users")
         userEmail=intent.getStringExtra("userEmail").toString()
