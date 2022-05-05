@@ -1,12 +1,15 @@
 package fr.isen.lazherme
 
 import android.annotation.SuppressLint
+import android.app.Activity
+import android.app.AlertDialog
 import android.bluetooth.*
 import android.bluetooth.BluetoothGattCharacteristic.PERMISSION_WRITE
 import android.bluetooth.BluetoothGattCharacteristic.WRITE_TYPE_DEFAULT
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
@@ -14,12 +17,18 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
+import android.view.Gravity
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.google.android.gms.common.util.Hex
+import com.google.firebase.auth.FirebaseAuth
 import fr.isen.lazherme.R
 import fr.isen.lazherme.databinding.ActivityMainBinding
 import java.util.*
@@ -30,6 +39,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding : ActivityMainBinding
     private lateinit var userKey : String
     private lateinit var userEmail : String
+    private lateinit var codeStart : String
     lateinit var swipeContainer: SwipeRefreshLayout
     private var isScanning = false
     private val listeBle = ArrayList<ScanResult>()
@@ -44,9 +54,17 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         userKey = intent.getStringExtra("uid").toString()
         userEmail = intent.getStringExtra("email").toString()
+        codeStart = intent.getStringExtra("codeStart").toString()
+        if (codeStart=="0"){
+            Toast(this).showCustomToast ("Connexion réussie !", this)
+        }
+        if (codeStart=="1"){
+            Toast(this).showCustomToast ("Appareil deconnecté !", this)
+        }
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        startLeScanBLEWithPermission(!isScanning)
         binding.bleScanList.layoutManager = LinearLayoutManager(this)
         binding.bleScanList.adapter = BleAdapter(listeBle){
             Log.w("ScanResultAdapter", "Connecting to ${it.address}")
@@ -73,9 +91,44 @@ class MainActivity : AppCompatActivity() {
         binding.bleScanText.setOnClickListener {
             startLeScanBLEWithPermission(!isScanning)
         }
+        binding.logoutMain.setOnClickListener{
+            AlertDialog.Builder(this)
+                .setMessage("Voulez vous vraiment vous deconnecter ?")
+                .setPositiveButton("Oui",
+                    DialogInterface.OnClickListener { dialog, whichButton ->
+                        logout()
+                    })
+                .setNegativeButton("Non", null).show()
+        }
     }
 
+    fun logout() {
+                val intent = Intent(this, SignInActivity::class.java)
+                FirebaseAuth.getInstance().signOut()
+                startActivity(intent)
+                Toast(this).showCustomToast ("Déconnexion...", this)
+    }
+    private fun Toast.showCustomToast(message: String, activity: Activity)
+    {
+        val layout = activity.layoutInflater.inflate (
+            R.layout.custom_toast_layout,
+            activity.findViewById(R.id.toast_container)
+        )
+
+        // set the text of the TextView of the message
+        val textView = layout.findViewById<TextView>(R.id.toast_text)
+        textView.text = message
+
+        // use the application extension function
+        this.apply {
+            setGravity(Gravity.BOTTOM, 0, 40)
+            duration = Toast.LENGTH_LONG
+            view = layout
+            show()
+        }
+    }
     private fun connectToDevice(context: Context,device:BluetoothDevice) {
+        Toast(this).showCustomToast ("Connexion en cours !", this)
         val intent = Intent(context,BluetoothService::class.java)
         intent.putExtra("idServ","0")
         intent.putExtra(ITEM_KEY, device)

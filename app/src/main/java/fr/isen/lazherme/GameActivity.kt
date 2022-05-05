@@ -1,12 +1,15 @@
 package fr.isen.lazherme
 
 import android.app.AlertDialog
-import android.content.*
+import android.content.Context
+import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.FirebaseError
 import com.google.firebase.database.*
 import fr.isen.lazherme.databinding.ActivityGameBinding
 
@@ -236,14 +239,14 @@ class GameActivity : AppCompatActivity() {
                 userListRed.clear()
                 if(snapshot.exists()){
                     for (userSnapchot in snapshot.children){
-                        var email = userSnapchot.child("email").getValue().toString()
-                        email = email.substringBefore("@")
-                        var team = userSnapchot.child("team").getValue().toString()
-                        if (team=="blue"){
-                            userListBlue.add(email)
-                        }else{
-                            userListRed.add(email)
-                        }
+                        var userkey = userSnapchot.child("email").value.toString()
+                        val team = userSnapchot.child("team").value.toString()
+                                if (team=="blue"){
+                                    userListBlue.add(userkey)
+                                }else{
+                                    userListRed.add(userkey)
+                                }
+                            }
                     }
                     arrayAdapterBlue = UserAdapter(userListBlue)
                     arrayAdapterRed = UserAdapter(userListRed)
@@ -253,14 +256,13 @@ class GameActivity : AppCompatActivity() {
                     binding.blueList.adapter = arrayAdapterBlue
                 }
 
-            }
-
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
 
         })
     }
+
     private fun getPlayerInGame() {
         val ref = myRef.child(code).child("gameSpecs")
         ref.addValueEventListener(object :ValueEventListener{

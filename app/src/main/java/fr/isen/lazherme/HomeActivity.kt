@@ -1,11 +1,14 @@
 package fr.isen.lazherme
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -17,9 +20,10 @@ class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
     private lateinit var database : FirebaseDatabase
     private lateinit var myRef: DatabaseReference
-    private lateinit var code:String
-    private lateinit var userEmail:String
-    private lateinit var userKey:String
+    private lateinit var code : String
+    private lateinit var userEmail : String
+    private lateinit var userKey : String
+    private lateinit var userName : String
     private var count = 2
     private var mode = 0
     private var temps = 10
@@ -34,9 +38,9 @@ class HomeActivity : AppCompatActivity() {
         binding.texteMode.text = getString(R.string.MME)
         binding.texteTemps.text = temps.toString()
         userEmail = intent.getStringExtra("email").toString()
-        supportActionBar?.title = userEmail.substringBefore("@")
         supportActionBar?.setIcon(R.drawable.ic_baseline_person_24)
         userKey = intent.getStringExtra("uid").toString()
+        getUserName()
         binding.button2.setOnClickListener{
             code = getRandomString(5)
             myRef.child("Games").child(code).child("gameSpecs").child("ownerEmail").setValue(userEmail)
@@ -115,7 +119,25 @@ class HomeActivity : AppCompatActivity() {
         }
         }
     }
+    private fun Toast.showCustomToast(message: String, activity: Activity)
+    {
+        val layout = activity.layoutInflater.inflate (
+            R.layout.custom_toast_layout,
+            activity.findViewById(R.id.toast_container)
+        )
 
+        // set the text of the TextView of the message
+        val textView = layout.findViewById<TextView>(R.id.toast_text)
+        textView.text = message
+
+        // use the application extension function
+        this.apply {
+            setGravity(Gravity.BOTTOM, 0, 40)
+            duration = Toast.LENGTH_LONG
+            view = layout
+            show()
+        }
+    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.ble,menu)
         return super.onCreateOptionsMenu(menu)
@@ -144,6 +166,15 @@ class HomeActivity : AppCompatActivity() {
                 return true
             }
             else -> super.onOptionsItemSelected(item)
+        }
+    }
+    private fun getUserName(){
+        val ref = myRef.child("Users").child(userKey)
+        ref.child("username").get().addOnSuccessListener {
+            userName = it.value.toString()
+            supportActionBar?.title = userName
+
+        }.addOnFailureListener{
         }
     }
     fun getRandomString(length: Int) : String {

@@ -12,6 +12,9 @@ private lateinit var userKey : String
 private lateinit var userEmail : String
 private lateinit var userTeam : String
 private lateinit var code : String
+private lateinit var score : String
+private lateinit var kills : String
+private lateinit var deaths : String
 private lateinit var scoreBleu : String
 private lateinit var scoreRouge : String
 private lateinit var myRef: DatabaseReference
@@ -29,7 +32,7 @@ class GameFinishedActivity : AppCompatActivity() {
         code = intent.getStringExtra("code").toString()
         userTeam = intent.getStringExtra("userTeam").toString()
         getGameSpecs()
-
+        getUserStats()
 
         binding.homeButton.setOnClickListener{
             val intent = Intent(this, HomeActivity::class.java)
@@ -37,6 +40,19 @@ class GameFinishedActivity : AppCompatActivity() {
             intent.putExtra("email", userEmail)
             startActivity(intent)
         }
+    }
+    private fun getUserStats(){
+        val ref = myRef.child("Games").child(code).child("players").child(userKey)
+        ref.child("death").get().addOnSuccessListener {
+            binding.statDeath.text = it.value.toString()
+
+        }.addOnFailureListener{
+        }
+        ref.child("kill").get().addOnSuccessListener {
+            binding.statKills.text = it.value.toString()
+        }.addOnFailureListener{
+        }
+
     }
     private fun getGameSpecs(){
         val ref = myRef.child("Games").child(code).child("gameSpecs")

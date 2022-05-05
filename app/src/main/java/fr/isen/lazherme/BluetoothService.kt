@@ -200,6 +200,7 @@ class BluetoothService : Service() {
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         dialogIntent.putExtra("email",addresse)
         dialogIntent.putExtra("uid",uid)
+        dialogIntent.putExtra("codeStart","1")
         startActivity(dialogIntent)
     }
 

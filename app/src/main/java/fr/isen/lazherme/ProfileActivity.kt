@@ -50,25 +50,25 @@ class ProfileActivity : AppCompatActivity() {
             binding.usernameText.isVisible = true
             binding.checkButton.isVisible = false
             binding.cancelButton.isVisible = false
-            getGameSpecs()
+            getUserName()
         }
     }
 
     private fun setNewPseudo() {
         myRef.child(userKey).child("username").setValue(binding.newPseudo.text.toString())
     }
-    private fun getGameSpecs(){
+    private fun getUserName(){
         val ref = myRef.child(userKey)
         ref.child("username").get().addOnSuccessListener {
             userName = it.value.toString()
             binding.usernameText.text = userName
-            Log.d("username :" , userName)
+
         }.addOnFailureListener{
         }
     }
 
     override fun onStart() {
-        getGameSpecs()
+        getUserName()
         super.onStart()
     }
     override fun onBackPressed() {
