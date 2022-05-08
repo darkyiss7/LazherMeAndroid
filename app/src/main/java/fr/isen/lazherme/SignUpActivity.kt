@@ -53,10 +53,10 @@ class SignUpActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Toast.makeText(this, "Password is not matching", Toast.LENGTH_SHORT).show()
+                    Toast(this).showCustomToast("Les mot de passe ne correspondent pas !!", this)
                 }
             } else {
-                Toast.makeText(this, "Empty Fields Are not Allowed !!", Toast.LENGTH_SHORT).show()
+                Toast(this).showCustomToast("Veuillez remplir tous les champs !!", this)
 
             }
         }
@@ -75,7 +75,7 @@ class SignUpActivity : AppCompatActivity() {
         // use the application extension function
         this.apply {
             setGravity(Gravity.BOTTOM, 0, 40)
-            duration = Toast.LENGTH_LONG
+            duration = Toast.LENGTH_SHORT
             view = layout
             show()
         }
