@@ -1,13 +1,12 @@
 package fr.isen.lazherme
 
-import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.core.view.isVisible
 import com.google.firebase.database.*
 import fr.isen.lazherme.databinding.ActivityProfileBinding
+import fr.isen.lazherme.home.HomeActivity
 
 private lateinit var binding: ActivityProfileBinding
 private lateinit var userEmail:String
@@ -20,7 +19,7 @@ class ProfileActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        supportActionBar?.title = "Profile"
+        supportActionBar?.hide()
         database = FirebaseDatabase.getInstance()
         myRef = database.getReference("Users")
         userEmail=intent.getStringExtra("userEmail").toString()
@@ -76,5 +75,6 @@ class ProfileActivity : AppCompatActivity() {
         intent.putExtra("uid",userKey)
         intent.putExtra("email",userEmail)
         startActivity(intent)
+        finish()
     }
 }

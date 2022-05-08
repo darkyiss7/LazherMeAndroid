@@ -57,10 +57,12 @@ class MainActivity : AppCompatActivity() {
         userEmail = intent.getStringExtra("email").toString()
         codeStart = intent.getStringExtra("codeStart").toString()
         if (codeStart=="0"){
-            Toast(this).showCustomToast ("Connexion réussie !", this)
+            Toast.makeText(this, "Connexion réussie !", Toast.LENGTH_SHORT)
+                .show()
         }
         if (codeStart=="1"){
-            Toast(this).showCustomToast ("Appareil deconnecté !", this)
+            Toast.makeText(this, "Appareil deconnecté !", Toast.LENGTH_SHORT)
+                .show()
         }
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -118,35 +120,21 @@ class MainActivity : AppCompatActivity() {
                 FirebaseAuth.getInstance().signOut()
                 startActivity(intent)
                 finish()
-                Toast(this).showCustomToast ("Déconnexion...", this)
     }
-    private fun Toast.showCustomToast(message: String, activity: Activity)
-    {
-        val layout = activity.layoutInflater.inflate (
-            R.layout.custom_toast_layout,
-            activity.findViewById(R.id.toast_container)
-        )
-
-        // set the text of the TextView of the message
-        val textView = layout.findViewById<TextView>(R.id.toast_text)
-        textView.text = message
-
-        // use the application extension function
-        this.apply {
-            setGravity(Gravity.BOTTOM, 0, 40)
-            duration = Toast.LENGTH_SHORT
-            view = layout
-            show()
-        }
-    }
-    private fun connectToDevice(context: Context,device:BluetoothDevice) {
-        Toast(this).showCustomToast ("Connexion en cours !", this)
-        val intent = Intent(context,BluetoothService::class.java)
-        intent.putExtra("idServ","0")
-        intent.putExtra(ITEM_KEY, device)
-        intent.putExtra("address",userEmail)
-        intent.putExtra("uid",userKey)
-        startService(intent)
+    @SuppressLint("MissingPermission")
+    private fun connectToDevice(context: Context, device:BluetoothDevice) {
+        AlertDialog.Builder(this)
+            .setMessage("Se connecter a ${device.name} ?")
+            .setPositiveButton("Oui",
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    val intent = Intent(context,BluetoothService::class.java)
+                    intent.putExtra("idServ","0")
+                    intent.putExtra(ITEM_KEY, device)
+                    intent.putExtra("address",userEmail)
+                    intent.putExtra("uid",userKey)
+                    startService(intent)
+                })
+            .setNegativeButton("Non", null).show()
     }
 
     fun onRefresh(){

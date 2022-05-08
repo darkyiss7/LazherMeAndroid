@@ -11,8 +11,8 @@ import android.os.Handler
 import android.os.IBinder
 import android.os.Looper
 import android.util.Log
-import android.widget.Toast
 import androidx.core.app.ActivityCompat
+import fr.isen.lazherme.home.HomeActivity
 import java.util.*
 
 class BluetoothService : Service() {
@@ -38,6 +38,11 @@ class BluetoothService : Service() {
             if(intent.getStringExtra("idServ").toString()=="1"){
                 var idTeam = intent.getStringExtra("idTeam").toString()
                 writeCharacteristic(teamCaracteristique,idTeam)
+            }
+            if(intent.getStringExtra("idServ").toString()=="2"){
+                closeBluetoothGatt()
+                backBle()
+                stopSelf()
             }
         }
         return START_NOT_STICKY;
@@ -209,6 +214,7 @@ class BluetoothService : Service() {
         dialogIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         dialogIntent.putExtra("email",addresse)
         dialogIntent.putExtra("uid",uid)
+        dialogIntent.putExtra("codeStart","1")
         startActivity(dialogIntent)
     }
 
@@ -260,6 +266,11 @@ class BluetoothService : Service() {
 
             return this@BluetoothService
         }
+    }
+    @SuppressLint("MissingPermission")
+    private fun closeBluetoothGatt() {
+        bluetoothGatt?.close()
+        bluetoothGatt = null
     }
     private fun close() {
         bluetoothGatt?.let { gatt ->

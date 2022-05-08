@@ -53,31 +53,14 @@ class SignUpActivity : AppCompatActivity() {
                         }
                     }
                 } else {
-                    Toast(this).showCustomToast("Les mot de passe ne correspondent pas !!", this)
+                    Toast.makeText(this, "Les mot de passe ne correspondent pas !!", Toast.LENGTH_SHORT)
+                        .show()
                 }
             } else {
-                Toast(this).showCustomToast("Veuillez remplir tous les champs !!", this)
+                Toast.makeText(this, "Veuillez remplir tous les champs !!", Toast.LENGTH_SHORT)
+                    .show()
 
             }
-        }
-    }
-    private fun Toast.showCustomToast(message: String, activity: Activity)
-    {
-        val layout = activity.layoutInflater.inflate (
-            R.layout.custom_toast_layout,
-            activity.findViewById(R.id.toast_container)
-        )
-
-        // set the text of the TextView of the message
-        val textView = layout.findViewById<TextView>(R.id.toast_text)
-        textView.text = message
-
-        // use the application extension function
-        this.apply {
-            setGravity(Gravity.BOTTOM, 0, 40)
-            duration = Toast.LENGTH_SHORT
-            view = layout
-            show()
         }
     }
 }

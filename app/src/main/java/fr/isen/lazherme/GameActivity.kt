@@ -5,13 +5,12 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.firebase.FirebaseError
 import com.google.firebase.database.*
 import fr.isen.lazherme.databinding.ActivityGameBinding
+import fr.isen.lazherme.home.HomeActivity
 
 
 private lateinit var binding: ActivityGameBinding

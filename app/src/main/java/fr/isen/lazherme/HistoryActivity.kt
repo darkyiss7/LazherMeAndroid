@@ -4,10 +4,10 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
 import fr.isen.lazherme.databinding.ActivityHistoryBinding
+import fr.isen.lazherme.home.HomeActivity
 
 private lateinit var database : FirebaseDatabase
 private lateinit var myRef: DatabaseReference

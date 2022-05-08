@@ -3,9 +3,9 @@ package fr.isen.lazherme
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.google.firebase.database.*
 import fr.isen.lazherme.databinding.ActivityGameFinishedBinding
+import fr.isen.lazherme.home.HomeActivity
 
 private lateinit var binding : ActivityGameFinishedBinding
 private lateinit var userKey : String

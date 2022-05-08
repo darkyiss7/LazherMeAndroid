@@ -47,41 +47,25 @@ class SignInActivity : AppCompatActivity() {
                         intent.putExtra("email", firebaseAuth.currentUser!!.email)
                         intent.putExtra("codeStart", "0")
                         startActivity(intent)
-                        Toast(this).showCustomToast("Connexion reussie !", this)
+                        Toast.makeText(this, "Connexion reussie !", Toast.LENGTH_SHORT).show()
                         /*  val intentTest = Intent(this, HomeActivity::class.java)
                          intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
                          intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
                          startActivity(intentTest)*/
                     } else {
-                        Toast(this).showCustomToast(it.exception?.message.toString(), this)
+                        Toast.makeText(this, it.exception?.message.toString(), Toast.LENGTH_SHORT)
+                            .show()
 
                     }
                 }
             } else {
-                Toast(this).showCustomToast("Veuillez remplir tous les champs !!", this)
+                Toast.makeText(this, "Veuillez remplir tous les champs !!", Toast.LENGTH_SHORT)
+                    .show()
 
             }
         }
     }
 
-    private fun Toast.showCustomToast(message: String, activity: Activity) {
-        val layout = activity.layoutInflater.inflate(
-            R.layout.custom_toast_layout,
-            activity.findViewById(R.id.toast_container)
-        )
-
-        // set the text of the TextView of the message
-        val textView = layout.findViewById<TextView>(R.id.toast_text)
-        textView.text = message
-
-        // use the application extension function
-        this.apply {
-            setGravity(Gravity.BOTTOM, 0, 40)
-            duration = Toast.LENGTH_SHORT
-            view = layout
-            show()
-        }
-    }
 
     override fun onStart() {
         super.onStart()
@@ -92,11 +76,11 @@ class SignInActivity : AppCompatActivity() {
             intent.putExtra("uid", firebaseAuth.currentUser!!.uid)
             intent.putExtra("codeStart", "0")
             startActivity(intent)
-/*val intentTest = Intent(this, HomeActivity::class.java)
-intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
-intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
-intent.putExtra("codeStart","0")
-startActivity(intentTest)*/
+            /*val intentTest = Intent(this, HomeActivity::class.java)
+            intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
+            intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
+            intent.putExtra("codeStart","0")
+            startActivity(intentTest)*/
         }
     }
 }
