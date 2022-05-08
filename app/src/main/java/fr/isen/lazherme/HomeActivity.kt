@@ -1,7 +1,9 @@
 package fr.isen.lazherme
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -61,6 +63,7 @@ class HomeActivity : AppCompatActivity() {
             intent.putExtra("userKey",userKey)
             intent.putExtra("userEmail",userEmail)
             startActivity(intent)
+            finish()
         }
         binding.button3.setOnClickListener{
             var gamecode = binding.code.text.toString()
@@ -149,6 +152,7 @@ class HomeActivity : AppCompatActivity() {
                 intent.putExtra("userKey",userKey)
                 intent.putExtra("userEmail",userEmail)
                 startActivity(intent)
+                finish()
                 return true
             }
             R.id.historique ->{
@@ -156,13 +160,22 @@ class HomeActivity : AppCompatActivity() {
                 intent.putExtra("userKey",userKey)
                 intent.putExtra("userEmail",userEmail)
                 startActivity(intent)
+                finish()
                 return true
             }
             R.id.dexonnexion ->{
-                val intent = Intent(this, SignInActivity::class.java)
-                FirebaseAuth.getInstance().signOut()
-                startActivity(intent)
-                Toast.makeText(this, "Déconnexion...", Toast.LENGTH_SHORT).show()
+                AlertDialog.Builder(this)
+                    .setMessage("Voulez vous vraiment vous deconnecter ?")
+                    .setPositiveButton("Oui",
+                        DialogInterface.OnClickListener { dialog, whichButton ->
+                            val intent = Intent(this, SignInActivity::class.java)
+                            FirebaseAuth.getInstance().signOut()
+                            startActivity(intent)
+                            finish()
+                            Toast.makeText(this, "Déconnexion...", Toast.LENGTH_SHORT).show()
+                        })
+                    .setNegativeButton("Non", null).show()
+
                 return true
             }
             else -> super.onOptionsItemSelected(item)
@@ -227,6 +240,23 @@ class HomeActivity : AppCompatActivity() {
         intent.putExtra("userKey",userKey)
         intent.putExtra("userEmail",userEmail)
         startActivity(intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        AlertDialog.Builder(this)
+            .setMessage("Voulez vous vraiment vous deconnecter ?")
+            .setPositiveButton("Oui",
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    val intent = Intent(this, SignInActivity::class.java)
+                    FirebaseAuth.getInstance().signOut()
+                    startActivity(intent)
+                    finish()
+                    Toast.makeText(this, "Déconnexion...", Toast.LENGTH_SHORT).show()
+                })
+            .setNegativeButton("Non", null).show()
+
     }
 
 }

@@ -18,7 +18,7 @@ class SignInActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySignInBinding
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var database : FirebaseDatabase
+    private lateinit var database: FirebaseDatabase
     private lateinit var myRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,29 +43,29 @@ class SignInActivity : AppCompatActivity() {
                 firebaseAuth.signInWithEmailAndPassword(email, pass).addOnCompleteListener {
                     if (it.isSuccessful) {
                         val intent = Intent(this, MainActivity::class.java)
-                        intent.putExtra("uid",firebaseAuth.currentUser!!.uid)
-                        intent.putExtra("email",firebaseAuth.currentUser!!.email)
-                        intent.putExtra("codeStart","0")
+                        intent.putExtra("uid", firebaseAuth.currentUser!!.uid)
+                        intent.putExtra("email", firebaseAuth.currentUser!!.email)
+                        intent.putExtra("codeStart", "0")
                         startActivity(intent)
-                        Toast(this).showCustomToast ("Connexion reussie !", this)
+                        Toast(this).showCustomToast("Connexion reussie !", this)
                         /*  val intentTest = Intent(this, HomeActivity::class.java)
                          intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
                          intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
                          startActivity(intentTest)*/
                     } else {
-                        Toast(this).showCustomToast (it.exception?.message.toString(), this)
+                        Toast(this).showCustomToast(it.exception?.message.toString(), this)
 
                     }
                 }
             } else {
-                Toast(this).showCustomToast ("Veuillez remplir tous les champs !!", this)
+                Toast(this).showCustomToast("Veuillez remplir tous les champs !!", this)
 
             }
         }
     }
-    private fun Toast.showCustomToast(message: String, activity: Activity)
-    {
-        val layout = activity.layoutInflater.inflate (
+
+    private fun Toast.showCustomToast(message: String, activity: Activity) {
+        val layout = activity.layoutInflater.inflate(
             R.layout.custom_toast_layout,
             activity.findViewById(R.id.toast_container)
         )
@@ -82,20 +82,21 @@ class SignInActivity : AppCompatActivity() {
             show()
         }
     }
+
     override fun onStart() {
         super.onStart()
 
-        if(firebaseAuth.currentUser != null){
-              val intent = Intent(this, MainActivity::class.java)
-              intent.putExtra("email",firebaseAuth.currentUser!!.email)
-              intent.putExtra("uid",firebaseAuth.currentUser!!.uid)
-              intent.putExtra("codeStart","0")
-              startActivity(intent)
+        if (firebaseAuth.currentUser != null) {
+            val intent = Intent(this, MainActivity::class.java)
+            intent.putExtra("email", firebaseAuth.currentUser!!.email)
+            intent.putExtra("uid", firebaseAuth.currentUser!!.uid)
+            intent.putExtra("codeStart", "0")
+            startActivity(intent)
 /*val intentTest = Intent(this, HomeActivity::class.java)
 intentTest.putExtra("email",firebaseAuth.currentUser!!.email)
 intentTest.putExtra("uid",firebaseAuth.currentUser!!.uid)
 intent.putExtra("codeStart","0")
 startActivity(intentTest)*/
-}
-}
+        }
+    }
 }

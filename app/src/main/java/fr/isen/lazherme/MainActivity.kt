@@ -50,6 +50,7 @@ class MainActivity : AppCompatActivity() {
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothManager.adapter
     }
+
     @SuppressLint("MissingPermission")
     override fun onCreate(savedInstanceState: Bundle?) {
         userKey = intent.getStringExtra("uid").toString()
@@ -101,11 +102,22 @@ class MainActivity : AppCompatActivity() {
                 .setNegativeButton("Non", null).show()
         }
     }
+    override fun onBackPressed() {
+        AlertDialog.Builder(this)
+            .setMessage("Voulez vous vraiment vous deconnecter ?")
+            .setPositiveButton("Oui",
+                DialogInterface.OnClickListener { dialog, whichButton ->
+                    logout()
+                    super.onBackPressed()
+                })
+            .setNegativeButton("Non", null).show()
 
+    }
     fun logout() {
                 val intent = Intent(this, SignInActivity::class.java)
                 FirebaseAuth.getInstance().signOut()
                 startActivity(intent)
+                finish()
                 Toast(this).showCustomToast ("Déconnexion...", this)
     }
     private fun Toast.showCustomToast(message: String, activity: Activity)
@@ -122,7 +134,7 @@ class MainActivity : AppCompatActivity() {
         // use the application extension function
         this.apply {
             setGravity(Gravity.BOTTOM, 0, 40)
-            duration = Toast.LENGTH_LONG
+            duration = Toast.LENGTH_SHORT
             view = layout
             show()
         }
