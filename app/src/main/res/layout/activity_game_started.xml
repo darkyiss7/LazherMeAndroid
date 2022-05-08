@@ -5,13 +5,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".GameStartedActivity">
+
     <ImageView
         android:id="@+id/imageView18"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="-10dp"
         android:src="@color/dark_grey"
-        app:layout_constraintBottom_toBottomOf="@+id/textView11"
+        app:layout_constraintBottom_toBottomOf="@+id/scoreBleu"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -31,7 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:fontFamily="sans-serif-light"
+        android:fontFamily="@font/blinker"
         android:text="Temps restant :"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -42,6 +42,7 @@
         android:id="@+id/texteTimer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:fontFamily="@font/bebas_neue"
         android:text="TextView"
         android:textColor="@color/white"
@@ -54,27 +55,26 @@
         android:id="@+id/scoreBleu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:fontFamily="@font/bebas_neue"
         android:text="0"
         android:textColor="@color/blue"
-        android:textSize="40sp"
+        android:textSize="50sp"
         app:layout_constraintEnd_toStartOf="@+id/divider4"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 
     <TextView
         android:id="@+id/scoreRouge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/bebas_neue"
         android:text="0"
         android:textColor="@color/red"
-        android:textSize="40sp"
+        android:textSize="50sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/divider4"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
+
     <Button
         android:id="@+id/boutonArreter"
         android:layout_width="wrap_content"
@@ -83,8 +83,8 @@
         android:backgroundTint="@color/purple_main"
         android:fontFamily="sans-serif-light"
         android:text="Arreter"
-        android:textSize="20sp"
         android:textColor="@color/white"
+        android:textSize="20sp"
         app:icon="@drawable/ic_baseline_play_arrow_24"
         app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -119,16 +119,4 @@
         app:layout_constraintTop_toBottomOf="@+id/scoreRouge" />
 
 
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/blinker"
-        android:text="Score"
-        android:textSize="20sp"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView9" />
 </androidx.constraintlayout.widget.ConstraintLayout>

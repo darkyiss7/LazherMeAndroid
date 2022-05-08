@@ -26,6 +26,7 @@ private lateinit var playerMax : String
 private lateinit var temps : String
 private lateinit var userKey : String
 private lateinit var userEmail : String
+private lateinit var userName: String
 private lateinit var userTeam : String
 private lateinit var ownerEmail : String
 private lateinit var playersInGame : String
@@ -157,13 +158,11 @@ class GameActivity : AppCompatActivity() {
 
                             var team = snapshot.child("team").getValue().toString()
                             if (team=="blue"){
-                                userListBlue.remove(userEmail.substringBefore("@"))
                                 myRef.child(code).child("players").child(userKey).child("team").setValue("red")
                                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_left_24)
                                 changeTeamSTM("a")
 
                             }else{
-                                userListRed.remove(userEmail.substringBefore("@"))
                                 myRef.child(code).child("players").child(userKey).child("team").setValue("blue")
                                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_right_24)
                                 changeTeamSTM("b")
@@ -239,7 +238,7 @@ class GameActivity : AppCompatActivity() {
                 userListRed.clear()
                 if(snapshot.exists()){
                     for (userSnapchot in snapshot.children){
-                        var userkey = userSnapchot.child("email").value.toString()
+                        var userkey = userSnapchot.child("username").value.toString()
                         val team = userSnapchot.child("team").value.toString()
                                 if (team=="blue"){
                                     userListBlue.add(userkey)

@@ -38,7 +38,6 @@ class HomeActivity : AppCompatActivity() {
         binding.texteMode.text = getString(R.string.MME)
         binding.texteTemps.text = temps.toString()
         userEmail = intent.getStringExtra("email").toString()
-        supportActionBar?.setIcon(R.drawable.ic_baseline_person_24)
         userKey = intent.getStringExtra("uid").toString()
         getUserName()
         binding.button2.setOnClickListener{
@@ -51,6 +50,7 @@ class HomeActivity : AppCompatActivity() {
             myRef.child("Games").child(code).child("gameSpecs").child("playersInGame").setValue(1)
             myRef.child("Games").child(code).child("gameSpecs").child("gameState").setValue(0)
             myRef.child("Games").child(code).child("players").child(userKey).child("email").setValue(userEmail)
+            myRef.child("Games").child(code).child("players").child(userKey).child("username").setValue(userName)
             myRef.child("Games").child(code).child("players").child(userKey).child("team").setValue("blue")
             myRef.child("Games").child(code).child("players").child(userKey).child("kill").setValue(0)
             myRef.child("Games").child(code).child("players").child(userKey).child("death").setValue(0)
@@ -173,6 +173,8 @@ class HomeActivity : AppCompatActivity() {
         ref.child("username").get().addOnSuccessListener {
             userName = it.value.toString()
             supportActionBar?.title = userName
+            supportActionBar?.setIcon(R.drawable.ic_baseline_person_24_white)
+            supportActionBar?.setDisplayShowHomeEnabled(true);
 
         }.addOnFailureListener{
         }
@@ -216,6 +218,7 @@ class HomeActivity : AppCompatActivity() {
     private fun openGame(playersInGame : Int,grandId : Int) {
         var codeGame = binding.code.text.toString()
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("email").setValue(userEmail)
+        myRef.child("Games").child(codeGame).child("players").child(userKey).child("username").setValue(userName)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("team").setValue("red")
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("kill").setValue(0)
         myRef.child("Games").child(codeGame).child("players").child(userKey).child("death").setValue(0)
