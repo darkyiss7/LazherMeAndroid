@@ -6,9 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import fr.isen.lazherme.R
+import fr.isen.lazherme.databinding.FragmentCreateBinding
 
 class JoinFragment : Fragment() {
 
+    private lateinit var code: String
+    private lateinit var userEmail: String
+    private lateinit var userKey: String
+    private lateinit var userName: String
+    private lateinit var _binding : FragmentCreateBinding
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -91,68 +91,7 @@ class HomeActivity : AppCompatActivity() {
 
         }
     }
-    /* private fun diminuerTemps() {
-         temps -= 10
-         if (temps<10) temps=30
-         binding.texteTemps.text = temps.toString()
-     }
 
-     private fun augmenterTemps() {
-         temps += 10
-         if (temps>30) temps=10
-         binding.texteTemps.text = temps.toString()
-     }
-     private fun diminuerNombre() {
-         count -= 2
-         if (count<2) count=12
-         binding.texteNombre.text = count.toString()
-     }
-
-     private fun augmenteNombre() {
-         count += 2
-         if (count>12) count=2
-         binding.texteNombre.text = count.toString()
-     }
-
-     private fun changemode(gameMode:Int) {
-         if (gameMode==0){
-             if (mode==0){
-                 binding.texteMode.text = getString(R.string.FFA)
-                 mode=1
-             }else{
-                 binding.texteMode.text = getString(R.string.MME)
-                 mode=0
-             }
-         }
-         if(gameMode==1){
-             if (mode==1){
-             binding.texteMode.text = getString(R.string.MME)
-                 mode=0
-         }else{
-             binding.texteMode.text = getString(R.string.FFA)
-                 mode=1
-         }
-         }
-     }
-     private fun Toast.showCustomToast(message: String, activity: Activity)
-     {
-         val layout = activity.layoutInflater.inflate (
-             R.layout.custom_toast_layout,
-             activity.findViewById(R.id.toast_container)
-         )
-
-         // set the text of the TextView of the message
-         val textView = layout.findViewById<TextView>(R.id.toast_text)
-         textView.text = message
-
-         // use the application extension function
-         this.apply {
-             setGravity(Gravity.BOTTOM, 0, 40)
-             duration = Toast.LENGTH_LONG
-             view = layout
-             show()
-         }
-     }
      override fun onCreateOptionsMenu(menu: Menu?): Boolean {
          menuInflater.inflate(R.menu.ble,menu)
          return super.onCreateOptionsMenu(menu)
@@ -194,7 +133,7 @@ class HomeActivity : AppCompatActivity() {
          }
      }
 
-
+/*
      private fun checkGame(context:Context) {
          val ref = myRef.child("Games").child(binding.code.text.toString())
          ref.addListenerForSingleValueEvent(object :ValueEventListener{
@@ -242,6 +181,8 @@ class HomeActivity : AppCompatActivity() {
          startActivity(intent)
          finish()
      }
+     */
+
 
      override fun onBackPressed() {
 
@@ -258,7 +199,7 @@ class HomeActivity : AppCompatActivity() {
                  })
              .setNegativeButton("Non", null).show()
 
-     }*/
+     }
     private fun getUserName(){
         val ref = myRef.child("Users").child(userKey)
         ref.child("username").get().addOnSuccessListener {
@@ -269,8 +210,5 @@ class HomeActivity : AppCompatActivity() {
 
         }.addOnFailureListener{
         }
-    }
-    private fun getUserName2(){
-
     }
 }
