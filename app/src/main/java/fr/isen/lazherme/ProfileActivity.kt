@@ -91,12 +91,11 @@ class ProfileActivity : AppCompatActivity() {
         ref.child("exp").get().addOnSuccessListener {
             exp = it.value.toString()
             binding.progressBar2.max = 100
-            binding.ptsExp.text = exp + "exp "
+            binding.ptsExp.text = exp + " exp"
             binding.lvlText.text = "LVL " + ((exp.toInt()/100)).toString()
             binding.lvlSupText.text = "LVL " + ((exp.toInt()/100)+1).toString()
             binding.lvlSupExpText.text = "encore " + (100-(exp.toInt()%100)).toString()
             binding.progressBar2.progress = exp.toInt()%100
-            Log.d("exp",exp)
 
         }.addOnFailureListener{
         }
