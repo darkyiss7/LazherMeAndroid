@@ -216,9 +216,11 @@ class MainActivity : AppCompatActivity() {
         @SuppressLint("MissingPermission")
         override fun onScanResult(callbackType: Int, result: ScanResult) {
             Log.d("BLEScanActivity","result : ${result.device.address}, rssi : ${result.rssi},nom : ${result.device.name}")
-            (binding.bleScanList.adapter as BleAdapter).apply {
-                addToList(result)
-                notifyDataSetChanged()
+            if(result.device.address[0]=='0'){
+                (binding.bleScanList.adapter as BleAdapter).apply {
+                    addToList(result)
+                    notifyDataSetChanged()
+                }
             }
         }
     }

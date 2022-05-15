@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.database.*
 import fr.isen.lazherme.databinding.ActivityHistoryBinding
@@ -33,13 +34,19 @@ class HistoryActivity : AppCompatActivity() {
         val ref = myRef.child("Users").child(userKey).child("games")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                gameList.clear()
-                for (game in snapshot.children) {
-                    gameList.add(game.key.toString())
-                    arrayAdapterGame= HistoryAdapter(gameList)
-                    binding.gameRecyclerView.layoutManager = LinearLayoutManager(context)
-                    binding.gameRecyclerView.adapter = arrayAdapterGame
+                if (snapshot.exists()){
+                    gameList.clear()
+                    for (game in snapshot.children) {
+                        gameList.add(game.key.toString())
+                        arrayAdapterGame= HistoryAdapter(gameList)
+                        binding.gameRecyclerView.layoutManager = LinearLayoutManager(context)
+                        binding.gameRecyclerView.adapter = arrayAdapterGame
+                    }
                 }
+                else{
+                    binding.noGameText.isVisible = true
+                }
+
             }
 
             override fun onCancelled(error: DatabaseError) {

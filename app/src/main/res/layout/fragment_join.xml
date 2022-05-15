@@ -10,7 +10,7 @@
         android:id="@+id/codeLayout"
         style="@style/LoginTextInputOuterFieldStyle"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_marginHorizontal="16dp"
         app:boxStrokeColor="@color/dark_grey"
         app:hintTextColor="@color/dark_grey"
@@ -24,17 +24,19 @@
             android:id="@+id/code"
             style="@style/LoginTextInputInnerFieldStyle"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
             android:digits="ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
             android:fontFamily="@font/blinker"
+            android:textSize="20sp"
             android:hint="@string/saisissez_le_code"
             android:inputType="textCapCharacters" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button3"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/rejoindreBouton"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
+        app:cornerRadius="5dp"
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/purple_dark"
         android:fontFamily="@font/blinker"
@@ -49,13 +51,12 @@
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
+        android:layout_marginBottom="75dp"
         android:fontFamily="@font/bebas_neue"
         android:text="Rejoindre une partie"
         android:textColor="@color/dark_grey"
-        android:textSize="30sp"
+        android:textSize="35sp"
         app:layout_constraintBottom_toTopOf="@+id/codeLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

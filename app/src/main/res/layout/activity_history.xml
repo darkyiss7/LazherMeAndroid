@@ -5,22 +5,23 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".HistoryActivity">
+
     <ImageView
         android:id="@+id/imageView25"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="-35dp"
+        android:layout_marginBottom="-25dp"
+        android:src="@color/dark_grey"
         app:layout_constraintBottom_toBottomOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:src="@color/dark_grey" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imageView16"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="-24dp"
+        android:layout_marginBottom="-16dp"
         android:src="@color/purple_dark"
         app:layout_constraintBottom_toBottomOf="@+id/textView13"
         app:layout_constraintEnd_toEndOf="parent"
@@ -31,9 +32,9 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/bebas_neue"
-        android:text="Historique des parties"
+        android:text="@string/historique_des_parties"
         android:textColor="@color/white"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -46,6 +47,17 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView25" />
+
+    <TextView
+        android:id="@+id/no_game_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="@string/aucune_partie_r_cente"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView25" />

@@ -206,10 +206,10 @@ class GameActivity : AppCompatActivity() {
             userTeam = it.value.toString()
             if (it.value.toString()=="blue"){
                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_right_24)
-                changeTeamSTM("0")
+                changeTeamSTM("b")
             }else{
                 binding.boutonChangerEquipe.setImageResource(R.drawable.ic_baseline_switch_left_24)
-                changeTeamSTM("1")
+                changeTeamSTM("a")
             }
         }.addOnFailureListener{
         }

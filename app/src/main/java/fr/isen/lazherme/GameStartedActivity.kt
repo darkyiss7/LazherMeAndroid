@@ -148,17 +148,16 @@ class GameStartedActivity : AppCompatActivity() {
                 userList.clear()
                 if(snapshot.exists()){
                     for (userSnapchot in snapshot.children){
-                        var email = userSnapchot.child("email").getValue().toString()
+                        var username = userSnapchot.child("username").getValue().toString()
                         var kills = userSnapchot.child("kill").getValue().toString()
                         var deaths = userSnapchot.child("death").getValue().toString()
-                        email = email.substringBefore("@")
                         var team = userSnapchot.child("team").getValue().toString()
                         var id = userSnapchot.child("idInGame").getValue().toString()
                         userList.add(userUids(userSnapchot.key.toString(),id))
                         if (team=="blue"){
-                            userListBlue.add(userData(email,kills,deaths))
+                            userListBlue.add(userData(username,kills,deaths))
                         }else{
-                            userListRed.add(userData(email,kills,deaths))
+                            userListRed.add(userData(username,kills,deaths))
                         }
                     }
                     arrayAdapterBlue = UserAdapter2(userListBlue)

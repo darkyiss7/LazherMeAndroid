@@ -25,6 +25,7 @@ class CreateFragment : Fragment() {
     private var temps = 10
     private lateinit var database : FirebaseDatabase
     private lateinit var myRef: DatabaseReference
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -60,6 +61,7 @@ class CreateFragment : Fragment() {
             myRef.child("Games").child(code).child("players").child(userKey).child("death").setValue(0)
             myRef.child("Games").child(code).child("players").child(userKey).child("idInGame").setValue(0)
             myRef.child("Users").child(userKey!!).child("games").child(code).setValue(0)
+            myRef.child("Users").child(userKey!!).child("currentgame").setValue(code)
             val intent = Intent(activity, GameActivity::class.java)
             intent.putExtra("code",code)
             intent.putExtra("userKey",userKey)

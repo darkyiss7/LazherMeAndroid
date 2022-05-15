@@ -1,25 +1,16 @@
 package fr.isen.lazherme.home
 
-import android.app.Activity
 import android.app.AlertDialog
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.ui.NavigationUI.setupWithNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.navigation.NavigationView
+import com.google.android.material.navigation.NavigationBarView
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import fr.isen.lazherme.*
@@ -61,17 +52,19 @@ class HomeActivity : AppCompatActivity() {
 
         setFragment(createFragment)
 
-        bottomNavView.setOnItemReselectedListener {
-            when(it.itemId){
+        bottomNavView.setOnItemSelectedListener(NavigationBarView.OnItemSelectedListener { item ->
+            when (item.itemId) {
                 R.id.create -> {
                     setFragment(createFragment)
+                    return@OnItemSelectedListener true
                 }
                 R.id.join -> {
                     setFragment(joinFragment)
+                    return@OnItemSelectedListener true
                 }
             }
-        }
-
+            false
+        })
     }
 
     private fun setFragment(fragment : Fragment) {
@@ -134,53 +127,7 @@ class HomeActivity : AppCompatActivity() {
      }
 
 /*
-     private fun checkGame(context:Context) {
-         val ref = myRef.child("Games").child(binding.code.text.toString())
-         ref.addListenerForSingleValueEvent(object :ValueEventListener{
-             override fun onDataChange(snapshot: DataSnapshot) {
-                 var grandId = 0
-                 if(snapshot.exists()){
-                     for (userSnapchot in snapshot.child("players").children) {
-                         var id = userSnapchot.child("idInGame").value.toString()
-                         if (id.toInt()>grandId){
-                             grandId = id.toInt()
-                         }
-                     }
-                      ref.child("gameSpecs").child("playersInGame").get().addOnSuccessListener {
-                          var playersInGame = it.value.toString()
-                          openGame(playersInGame.toInt(),grandId)
-                     }.addOnFailureListener{
-                     }
 
-                 }else{
-                     Toast.makeText(context, "Partie introuvable", Toast.LENGTH_SHORT).show()
-                 }
-
-             }
-
-             override fun onCancelled(error: DatabaseError) {
-                 TODO("Not yet implemented")
-             }
-
-         })
-     }
-     private fun openGame(playersInGame : Int,grandId : Int) {
-         var codeGame = binding.code.text.toString()
-         myRef.child("Games").child(codeGame).child("players").child(userKey).child("email").setValue(userEmail)
-         myRef.child("Games").child(codeGame).child("players").child(userKey).child("username").setValue(userName)
-         myRef.child("Games").child(codeGame).child("players").child(userKey).child("team").setValue("red")
-         myRef.child("Games").child(codeGame).child("players").child(userKey).child("kill").setValue(0)
-         myRef.child("Games").child(codeGame).child("players").child(userKey).child("death").setValue(0)
-         myRef.child("Games").child(codeGame).child("players").child(userKey).child("idInGame").setValue(grandId+1)
-         myRef.child("Games").child(codeGame).child("gameSpecs").child("playersInGame").setValue(playersInGame+1)
-         myRef.child("Users").child(intent.getStringExtra("uid").toString()).child("games").child(codeGame).setValue(0)
-         val intent = Intent(this, GameActivity::class.java)
-         intent.putExtra("code",binding.code.text.toString())
-         intent.putExtra("userKey",userKey)
-         intent.putExtra("userEmail",userEmail)
-         startActivity(intent)
-         finish()
-     }
      */
 
 

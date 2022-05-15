@@ -44,6 +44,7 @@ class SignUpActivity : AppCompatActivity() {
                     firebaseAuth.createUserWithEmailAndPassword(email, pass).addOnCompleteListener {
                         if (it.isSuccessful) {
                             myRef.child("Users").child(firebaseAuth.currentUser!!.uid).child("email").setValue(email)
+                            myRef.child("Users").child(firebaseAuth.currentUser!!.uid).child("exp").setValue(0)
                             myRef.child("Users").child(firebaseAuth.currentUser!!.uid).child("username").setValue(email.substringBefore("@"))
                             val intent = Intent(this, SignInActivity::class.java)
                             startActivity(intent)

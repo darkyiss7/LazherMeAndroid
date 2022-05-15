@@ -100,7 +100,7 @@
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
-    <androidx.appcompat.widget.AppCompatButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/button"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
