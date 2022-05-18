@@ -137,6 +137,7 @@ class GameStartedActivity : AppCompatActivity() {
         intent.putExtra("userKey", userKey)
         intent.putExtra("userEmail", userEmail)
         intent.putExtra("userTeam", userTeam)
+        finish()
         startActivity(intent)
     }
     private fun getUsers(context : Context) {
@@ -181,6 +182,7 @@ class GameStartedActivity : AppCompatActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
+        finish()
         timer.cancel()
     }
 

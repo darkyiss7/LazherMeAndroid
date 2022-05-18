@@ -74,6 +74,7 @@ class GameActivity : AppCompatActivity() {
                     val intent = Intent(context, HomeActivity::class.java)
                     intent.putExtra("uid",userKey)
                     intent.putExtra("email",userEmail)
+                    finish()
                     startActivity(intent)
                 }
 
@@ -133,12 +134,14 @@ class GameActivity : AppCompatActivity() {
                         intent.putExtra("userKey",userKey)
                         intent.putExtra("userEmail",userEmail)
                         intent.putExtra("time",temps)
+                        finish()
                         startActivity(intent)
                     }
                 }else{
                     val intent = Intent(context, HomeActivity::class.java)
                     intent.putExtra("userKey",userKey)
                     intent.putExtra("email",userEmail)
+                    finish()
                     startActivity(intent)
                 }
             }
@@ -220,6 +223,7 @@ class GameActivity : AppCompatActivity() {
                 intent.putExtra("userKey",userKey)
                 intent.putExtra("userEmail",userEmail)
                 intent.putExtra("userTeam", userTeam)
+                finish()
                 startActivity(intent)
             }
         }.addOnFailureListener{

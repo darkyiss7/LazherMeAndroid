@@ -42,6 +42,7 @@ class GameFinishedActivity : AppCompatActivity() {
             val intent = Intent(this, HomeActivity::class.java)
             intent.putExtra("uid", userKey)
             intent.putExtra("email", userEmail)
+            finish()
             startActivity(intent)
         }
     }
@@ -80,6 +81,7 @@ class GameFinishedActivity : AppCompatActivity() {
         val intent = Intent(this, HomeActivity::class.java)
         intent.putExtra("uid", userKey)
         intent.putExtra("email", userEmail)
+        finish()
         startActivity(intent)
         super.onBackPressed()
     }
