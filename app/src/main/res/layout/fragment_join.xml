@@ -36,7 +36,7 @@
         android:id="@+id/rejoindreBouton"
         android:layout_width="200dp"
         android:layout_height="60dp"
-        app:cornerRadius="5dp"
+        app:cornerRadius="0dp"
         android:layout_marginTop="50dp"
         android:backgroundTint="@color/purple_dark"
         android:fontFamily="@font/blinker"
